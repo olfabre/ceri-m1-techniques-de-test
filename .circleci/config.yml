@@ -1,40 +1,31 @@
-# This config was automatically generated from your source code
-# Stacks detected: deps:java:.
 version: 2.1
+
+executors:
+  java-executor:
+    docker:
+      - image: circleci/openjdk:8-jdk  # Utilisation de l'image Docker avec Java 8 JDK
+
 jobs:
-  test-java:
-    docker:
-      - image: cimg/openjdk:17.0
+  build:
+    executor: java-executor  # Utilisation de l'exécuteur défini ci-dessus
     steps:
-      - checkout
+      - checkout  # Vérifier le code source
       - run:
-          name: Calculate cache key
-          command: |-
-            find . -name 'pom.xml' -o -name 'gradlew*' -o -name '*.gradle*' | \
-                    sort | xargs cat > /tmp/CIRCLECI_CACHE_KEY
-      - restore_cache:
-          key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
+          name: Install Maven
+          command: |
+            curl -s https://archive.apache.org/dist/maven/binaries/apache-maven-3.8.4-bin.tar.gz | tar xz
+            echo 'export PATH=$PATH:$(pwd)/apache-maven-3.8.4/bin' >> $BASH_ENV
+            source $BASH_ENV
       - run:
-          command: mvn verify
-      - store_test_results:
-          path: target/surefire-reports
-      - save_cache:
-          key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
-          paths:
-            - ~/.m2/repository
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
-    steps:
-      # Replace this with steps to deploy to users
-      - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          name: Run Maven tests
+          command: mvn test  # Exécuter les tests unitaires avec Maven
+
 workflows:
-  build-and-test:
+  version: 2
+  build:
     jobs:
-      - test-java
-    # - deploy:
-    #     requires:
-    #       - test-java
+      - build:
+          filters:
+            branches:
+              only:
+                - master  # Exécuter uniquement sur la branche master
