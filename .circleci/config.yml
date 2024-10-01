@@ -1,21 +1,15 @@
 version: 2.1
 
 executors:
-  java-executor:
+  maven-executor:
     docker:
-      - image: circleci/openjdk:8-jdk  # Utilisation de l'image Docker avec Java 8 JDK
+      - image: maven:3.8.4-openjdk-11  # Utilisation d'une image avec Maven et OpenJDK 11
 
 jobs:
   build:
-    executor: java-executor  # Utilisation de l'exécuteur défini ci-dessus
+    executor: maven-executor  # Utilisation de l'exécuteur défini ci-dessus
     steps:
       - checkout  # Vérifier le code source
-      - run:
-          name: Install Maven
-          command: |
-            curl -s https://archive.apache.org/dist/maven/binaries/apache-maven-3.8.4-bin.tar.gz | tar xz
-            echo 'export PATH=$PATH:$(pwd)/apache-maven-3.8.4/bin' >> $BASH_ENV
-            source $BASH_ENV
       - run:
           name: Run Maven tests
           command: mvn test  # Exécuter les tests unitaires avec Maven
@@ -28,4 +22,4 @@ workflows:
           filters:
             branches:
               only:
-                - master  # Exécuter uniquement sur la branche master
+                - master  # Exécu
