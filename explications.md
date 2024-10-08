@@ -265,3 +265,10 @@ verify(mockedObject, times(1)).someMethod();
 ```
 
 4. **Tests sans effets de bord** : En utilisant Mockito, tu peux tester des classes sans créer de dépendances réelles, ce qui rend tes tests plus rapides, isolés, et faciles à exécuter dans n'importe quel environnement.
+
+#### Arborescence d'un projet java
+
+![1](explications_images/1.jpg)
+
+
+
