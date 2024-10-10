@@ -1,21 +1,19 @@
-package fr.univavignon.pokedex.api;
-
-/**
- * An IPokemonMetadataProvider aims to provide PokemonMetadata
- * for a given pokemon index.
- * 
- * @author fv
- */
-public interface IPokemonMetadataProvider {
+	package fr.univavignon.pokedex.api;
 
 	/**
-	 * Retrieves and returns the metadata for the pokemon
-	 * denoted by the given <tt>index</tt>.
-	 * 
-	 * @param index Index of the pokemon to retrieve metadata for.
-	 * @return Metadata of the pokemon.
-	 * @throws PokedexException If the given <tt>index</tt> is not valid.
+	 * Un IPokemonMetadataProvider a pour but de fournir des PokemonMetadata pour un index de pokémon donné.
+	 * @author fv
 	 */
-	PokemonMetadata getPokemonMetadata(int index) throws PokedexException;
-	
-}
+	public interface IPokemonMetadataProvider {
+
+		/**
+		 * Récupère et renvoie les métadonnées du pokémon.
+		 * dénoté par le <tt>index</tt> donné.
+		 *
+		 * @param index Index du pokémon pour lequel des métadonnées doivent être récupérées.
+		 * @return Métadonnées du pokémon.
+		 * @throws PokedexException Si le <tt>index</tt> donné n'est pas valide.
+		 */
+			PokemonMetadata getPokemonMetadata(int index) throws PokedexException;
+
+	}

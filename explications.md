@@ -50,7 +50,7 @@ Je travaille avec Maven qui est un outil de gestion et d'automatisation de proje
 - Maven s'intègre facilement avec des IDE comme IntelliJ IDEA, Eclipse, et des outils d'intégration continue comme Jenkins, CircleCI, etc.
 - Il fournit des fonctionnalités pour générer de la documentation pour un projet, ce qui peut être utile pour maintenir et partager des informations avec d'autres développeurs.
 
-Pour les tests automatiques, j'utilise une application tiers gratuites
+Pour les tests automatiques (intégration continue), j'utilise une application tiers en partie gratuite:
 
 https://app.circleci.com/
 
@@ -60,7 +60,7 @@ Quel est l'intérêt de passer par une application tierce ?
 
 Mon code fonctionne sur ma machine mais qui me dit que ce dernier fonctionne aussi sur d'autres machines? La vérification par un tiers sur un environnement isolé permet de s'assurer avec une forte probabilité que le code fonctionnera ailleurs.
 
-#### Pom.xml
+#### Maven et Pom.xml
 
 Pour maven, à la racine j'ai créé le fichier pom.xml pour sa configuration:
 
@@ -202,7 +202,7 @@ Indique la version du modèle POM. La version `4.0.0` est la version standard ut
 
 Les dépendances sont des bibliothèques dont le projet a besoin pour fonctionner. Ici, deux dépendances sont déclarées :
 
-- **JUnit** : Un framework pour les tests unitaires (version 4.13.2), utilisé uniquement dans le cadre des tests (scope `test`).
+- **JUnit** : Un framework pour les tests unitaires (version 4.13.2), utilisé uniquement dans le cadre des tests (scope `test`). Les classes de Junit 4 sont dans le package org.junit
 - **Mockito** : Une bibliothèque pour créer des mocks dans les tests (version 3.12.4), également utilisée dans les tests uniquement. Cela signifie que **Mockito** sera utilisé uniquement lors des phases de test (`scope` = `test`). Cela te permet de **simuler** les composants que tu ne souhaites pas tester directement (comme des services externes ou des bases de données) pour te concentrer sur le comportement de la classe que tu testes.
 
 
@@ -234,9 +234,9 @@ Cependant, tu mentionnes que tu as le **JDK 21** installé, ce qui est bien plus
 - **Java 1.8** (Java 8) est une version plus ancienne de Java, mais beaucoup de projets utilisent encore cette version pour des raisons de compatibilité.
 - **JDK 21** est la version la plus récente, mais tu peux toujours compiler du code en **Java 1.8** même avec un JDK plus récent, tant que le projet est configuré pour cibler cette version.
 
+Maven peut être utilisé avec ses principales fonctions directement par l'IDE IntelliJ comme on peut le voir sur l'image ci-dessous
 
-
-
+<img src="explications_images/2.jpg" alt="2" style="zoom:50%;" />
 
 ##### Mockito
 
@@ -272,3 +272,220 @@ verify(mockedObject, times(1)).someMethod();
 
 
 
+### 2. Comment tester son code
+
+Mockito est un générateur automatique de doublures qui peut être utilisé en conjonction avec JUnit. Il permet de créer des objets doublures à partir de n'importe quelle classe ou d'interface. Les doublures sont totalement contrôlables. Il suffit d’en déterminer le comportement en imposant les valeurs de retour aux méthodes : le "stubbing". 
+
+**ATTENTION**: Mockito ne peut pas doubler les classes déclarées final.
+
+
+
+#### La définition d'une classe test
+
+Nous souhaitons réaliser un fichier test de l'interface `IPokemonMetadataProvider`et plsu exactement de sa méthode `getPokemonMetadata(int index)`
+
+```java
+package fr.univavignon.pokedex.api;
+
+/**
+ * Un IPokemonMetadataProvider a pour but de fournir des PokemonMetadata pour un index de pokémon donné.
+ * @author fv
+ */
+public interface IPokemonMetadataProvider {
+
+	/**
+	 * Récupère et renvoie les métadonnées du pokémon.
+	 * dénoté par le <tt>index</tt> donné.
+	 * 
+	 * @param index Index du pokémon pour lequel des métadonnées doivent être récupérées.
+	 * @return Métadonnées du pokémon.
+	 * @throws PokedexException Si le <tt>index</tt> donné n'est pas valide.
+	 */
+	PokemonMetadata getPokemonMetadata(int index) throws PokedexException;
+	
+}
+```
+
+On créé un fichier class java dans l'arborescence `test/java/fr.univavignon.pokedex.api`
+
+Pour créer cette arborescence, on créé d'abord le dossier `test`
+
+ensuite on créé le dossier `java` et un package `fr.univavignon.pokedex.api`
+
+On marque `test`comme **Test Source Root**
+
+```java
+package fr.univavignon.pokedex.api;
+
+import org.junit.*;
+import static org.junit.Assert.*;
+import org.mockito.Mockito;
+
+public class IPokemonMetadataProviderTest {
+}
+```
+
+
+
+#### Classe test
+
+```java
+package fr.univavignon.pokedex.api;
+
+    import org.junit.*;
+    import static org.junit.Assert.*;
+    import org.mockito.Mockito;
+
+
+
+
+    public class IPokemonMetadataProviderTest {
+
+        private IPokemonMetadataProvider pokemonMetadataProvider;
+
+        @Before
+        public void initialisation() {
+            // Crée le mock sans utiliser d'import statique
+            pokemonMetadataProvider = Mockito.mock(IPokemonMetadataProvider.class);
+        }
+
+        @Test
+        public void testGetPokemonMetadata() throws Exception {
+            // Crée un objet fictif pour le test
+            PokemonMetadata bulbasaur = new PokemonMetadata(1, "Bulbasaur", 126, 126, 90);
+
+            // Définir le comportement du mock
+            Mockito.when(pokemonMetadataProvider.getPokemonMetadata(1)).thenReturn(bulbasaur);
+
+            // Appeler la méthode testée
+            PokemonMetadata result = pokemonMetadataProvider.getPokemonMetadata(1);
+
+            // Vérifier les résultats avec des assertions
+            assertEquals("Bulbasaur", result.getName());
+            assertEquals(126, result.getAttack());
+            assertEquals(126, result.getDefense());
+            assertEquals(90, result.getStamina());
+
+            // Vérifier que la méthode a été appelée une fois avec l'argument 1
+            Mockito.verify(pokemonMetadataProvider).getPokemonMetadata(1);
+        }
+    }
+```
+
+### 3. Explication
+
+#### Déclaration de la classe de test
+
+```java
+public class IPokemonMetadataProviderTest {
+```
+
+Cette classe teste l'interface `IPokemonMetadataProvider`
+
+
+
+#### Variable de test
+
+```java
+private IPokemonMetadataProvider pokemonMetadataProvider;
+```
+
+On déclare une variable `pokemonMetadataProvider`, qui représente l'objet à tester. Il s'agit d'un mock de l'interface `IPokemonMetadataProvider`.
+
+
+
+#### Méthode `@Before`
+
+```java
+@Before
+public void initialisation() {
+    // Crée le mock sans utiliser d'import statique
+    pokemonMetadataProvider = Mockito.mock(IPokemonMetadataProvider.class);
+}
+```
+
+**@Before** : Cette annotation indique que cette méthode sera exécutée avant chaque test. Ici, elle sert à initialiser le mock de `IPokemonMetadataProvider`.
+
+**Mockito.mock(...)** : Crée un mock, c'est-à-dire un objet factice de l'interface, que tu peux manipuler en définissant son comportement pour le test.
+
+
+
+#### Méthode de test
+
+```java
+@Test
+public void testGetPokemonMetadata() throws Exception {
+```
+
+**@Test** : Indique que cette méthode est un test. Le framework JUnit exécutera cette méthode pour vérifier si la fonctionnalité marche correctement.
+
+**throws Exception** : Permet de gérer des exceptions, comme celles qui pourraient être lancées par la méthode `getPokemonMetadata`.
+
+
+
+#### Création d'un objet de test
+
+```java
+PokemonMetadata bulbasaur = new PokemonMetadata(1, "Bulbasaur", 126, 126, 90);
+```
+
+On crée un objet `PokemonMetadata` avec des valeurs fictives. Cet objet représente les métadonnées d'un Pokémon (Bulbizarre ici), avec son index, nom, attaque et stamina.
+
+
+
+#### Définir le comportement du mock
+
+```java
+Mockito.when(pokemonMetadataProvider.getPokemonMetadata(1)).thenReturn(bulbasaur);
+```
+
+**Mockito.when(...)** : On utilise cette méthode pour définir le comportement attendu du mock. Ici, on lui dit que lorsque la méthode `getPokemonMetadata` est appelée avec l'index `1`, elle doit retourner l'objet `bulbasaur`.
+
+**thenReturn(bulbasaur)** : Indique que lorsque l'index 1 est demandé, il doit retourner les données de `bulbasaur`.
+
+### 
+
+#### Appel de la méthode testée
+
+```java
+PokemonMetadata result = pokemonMetadataProvider.getPokemonMetadata(1);
+```
+
+On appelle la méthode `getPokemonMetadata` avec l'index `1` et stocke le résultat dans la variable `result`.
+
+
+
+#### Vérification des résultats avec des assertions
+
+```java
+// Vérifier les résultats avec des assertions
+            assertEquals("Bulbasaur", result.getName());
+            assertEquals(126, result.getAttack());
+            assertEquals(126, result.getDefense());
+            assertEquals(90, result.getStamina());
+```
+
+assertEquals(...)
+
+Ces assertions vérifient si le résultat obtenu est conforme à ce qui est attendu.
+
+- On vérifie que le nom du Pokémon est bien "Bulbasaur".
+- Que son attaque est bien 126.
+- Que sa défense est bien 126.
+- Que son stamina est 90.
+
+Si une des valeurs ne correspond pas, le test échoue.
+
+
+
+#### Vérification de l'appel de la méthode
+
+```java
+Mockito.verify(pokemonMetadataProvider).getPokemonMetadata(1);
+```
+
+**Mockito.verify(...)** : Cette ligne vérifie que la méthode `getPokemonMetadata(1)` a bien été appelée exactement une fois avec l'argument 1. Si ce n'est pas le cas, le test échoue.
+
+
+
+on peut ajouter 
