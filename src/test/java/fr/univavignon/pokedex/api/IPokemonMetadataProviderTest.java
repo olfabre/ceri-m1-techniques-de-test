@@ -10,17 +10,19 @@
     public class IPokemonMetadataProviderTest {
 
         private IPokemonMetadataProvider pokemonMetadataProvider;
+        private PokemonMetadata bulbasaur;
 
         @Before
         public void initialisation() {
-            // Crée le mock sans utiliser d'import statique
+            // Crée le mock
             pokemonMetadataProvider = Mockito.mock(IPokemonMetadataProvider.class);
+            // Crée un objet fictif pour le test
+             bulbasaur = new PokemonMetadata(1, "Bulbasaur", 126, 126, 90);
         }
 
         @Test
         public void testGetPokemonMetadata() throws Exception {
-            // Crée un objet fictif pour le test
-            PokemonMetadata bulbasaur = new PokemonMetadata(1, "Bulbasaur", 126, 126, 90);
+
 
             // Définir le comportement du mock
             Mockito.when(pokemonMetadataProvider.getPokemonMetadata(1)).thenReturn(bulbasaur);
