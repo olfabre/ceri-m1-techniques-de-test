@@ -14,6 +14,6 @@
 		 * @return Métadonnées du pokémon.
 		 * @throws PokedexException Si le <tt>index</tt> donné n'est pas valide.
 		 */
-			PokemonMetadata getPokemonMetadata(int index) throws PokedexException;
+				PokemonMetadata getPokemonMetadata(int index) throws PokedexException;
 
 	}

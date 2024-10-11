@@ -1,6 +1,18 @@
 ### Mes explication sur le cours des tests
 
+Contexte: ce fichier a été crée par Olivier Fabre à l'occasion des TD de techniques de test en première année de Master Ingénierie Logiciel.
+
+Mes sources qui m'ont permis de remplir ce fichier: 
+
+- jmdoudoux.fr: https://www.jmdoudoux.fr/java/dej/chap-junit.htm#junit
+
+- Manuel du dev de ENSI de Caen: https://foad.ensicaen.fr/pluginfile.php/1214/course/section/635/Mockito.pdf
+
+  
+
 > Le but d'un test est de vérifier qu'une fonctionnalité fait ce que l'on attend d'elle.
+
+
 
 #### 1.Le contexte
 
@@ -542,4 +554,45 @@ Mockito.verify(pokemonMetadataProvider).getPokemonMetadata(1);
 
 
 
-Attention: il faut bien définir l'objectif. On souhaite tester la méthode définie 
+**Attention**: 
+
+il faut bien définir l'objectif. On souhaite tester la méthode définie dans l'interface `PokemonMetadata getPokemonMetadata(int index)`. Cette méthode prend un seul argument et retourne un objet de type `PokemonMetadata` . Si on va dans la classe `PokemonMetadata` on peut s'appercevoir que le constructeur est le suivant `public PokemonMetadata(final int index, final String name, final int attack, final int defense, final int stamina)`
+
+Cela signifie que pour tester la méthode `getPokemonMetadata(int index)` nous devons créer un objet `PokemonMetadata` afin d'y appliquer la méthode à tester.
+
+Un mock de l'interface `IPokemonMetadataProvider` est créé pour tester sa méthode `getPokemonMetadata`. L'utilisation d'un mock permet d'**isoler** le code testé de toute dépendance réelle.
+
+Ici, tu crées un mock de l'interface `IPokemonMetadataProvider`. Cela signifie que tu crées une implémentation factice de cette interface sans avoir à créer une vraie instance ou implémentation de celle-ci. L'objectif est de simuler les comportements de l'interface pendant les tests.
+
+
+
+### Les assertions
+
+Les cas de tests utilisent des affirmations (assertion en anglais) sous la forme de méthodes nommées assertXXX() proposées par le framework. Il existe de nombreuses méthodes de ce type qui sont héritées de la classe junit.framework.Assert :
+
+​	![3](explications_images/3.jpg)
+
+
+
+### Limitation du temps de test
+
+JUnit 4 propose une fonctionnalité rudimentaire pour vérifier qu'un cas de tests s'exécute dans un temps maximum donné.
+
+L'attribut timeout de l'annotation @Test attend comme valeur un délai maximum d'exécution exprimé en millisecondes.	
+
+```java
+  @Test(timeout=100)
+  public void compteur() {
+    for(long i = 0 ; i < 999999999; i++) { long a = i + 1; }
+  }
+
+```
+
+
+
+### Organisation des tests
+
+Il est généralement préférable de n'avoir qu'un seul assert par test car un test ne devrait avoir qu'une seule raison d'échouer.
+
+
+
