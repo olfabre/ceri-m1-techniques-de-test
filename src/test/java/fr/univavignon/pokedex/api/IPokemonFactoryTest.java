@@ -10,7 +10,7 @@ public class IPokemonFactoryTest {
     private Pokemon Bulbizarre;
 
     @Before
-    public void setUp() {
+    public void initialiser() {
         // Crée un mock pour l'usine de création de Pokemon
         pokemonFactory = Mockito.mock(IPokemonFactory.class);
 
@@ -43,7 +43,7 @@ public class IPokemonFactoryTest {
     }
 
     @After
-    public void tearDown() {
+    public void nettoyer() {
         Bulbizarre = null;
     }
 }

@@ -13,8 +13,8 @@
         private PokemonMetadata Bulbizarre;
 
         @Before
-        public void initialisation() {
-            // Crée le mock
+        public void initialiser() {
+            // Crée le mocks
             pokemonMetadataProvider = Mockito.mock(IPokemonMetadataProvider.class);
             // Crée un objet fictif pour le test
             Bulbizarre = new PokemonMetadata(0, "Bulbizarre", 126, 126, 90);
