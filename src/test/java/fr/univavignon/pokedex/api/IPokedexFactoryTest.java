@@ -6,10 +6,10 @@ import org.mockito.Mockito;
 
 public class IPokedexFactoryTest {
 
-    private IPokedexFactory pokedexFactory;
-    private IPokemonMetadataProvider metadataProvider;
-    private IPokemonFactory pokemonFactory;
-    private IPokedex pokedex;
+    private IPokedexFactory pokedexFactory; // un mock pour la classe que l'on veut tester
+    private IPokemonMetadataProvider metadataProvider; // un mock pour isoler l'interface
+    private IPokemonFactory pokemonFactory; // un mock pour isoler l'interface
+    private IPokedex pokedex; // un mock pour simuler l'objet retourné par la méthode  createPokedex()
 
     @Before
     public void initialiser() {

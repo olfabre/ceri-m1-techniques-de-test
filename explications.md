@@ -675,3 +675,10 @@ Si `result.getIv()` renvoie `56.001`, le test passerait parce que la différence
 
 
 
+---
+
+### IPokedexFactoryTest
+
+```java
+```
+
