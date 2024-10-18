@@ -36,8 +36,8 @@
             assertEquals(126, result.getDefense());
             assertEquals(90, result.getStamina());
 
-            // Vérifier que la méthode a été appelée une fois avec l'argument 1
-            Mockito.verify(pokemonMetadataProvider).getPokemonMetadata(1);
+            // Vérifier que la méthode a été appelée une fois avec l'argument 0
+            Mockito.verify(pokemonMetadataProvider).getPokemonMetadata(0);
         }
 
             @After

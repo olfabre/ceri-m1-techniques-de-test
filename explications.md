@@ -594,5 +594,84 @@ L'attribut timeout de l'annotation @Test attend comme valeur un délai maximum d
 
 Il est généralement préférable de n'avoir qu'un seul assert par test car un test ne devrait avoir qu'une seule raison d'échouer.
 
+---
+
+
+
+### IPokemonFactoryTest
+
+```java
+package fr.univavignon.pokedex.api;
+
+import org.junit.*;
+import static org.junit.Assert.*;
+import org.mockito.Mockito;
+
+public class IPokemonFactoryTest {
+
+    private IPokemonFactory pokemonFactory;
+    private Pokemon Bulbizarre;
+
+    @Before
+    public void setUp() {
+        // Crée un mock pour l'usine de création de Pokemon
+        pokemonFactory = Mockito.mock(IPokemonFactory.class);
+
+        // Crée une instance fictive de Pokemon pour le test
+        Bulbizarre = new Pokemon(0, "Bulbizarre", 126, 126, 90, 613, 64, 4000, 4, 56.0);
+
+        // Définir le comportement du mock pour créer le Pokemon
+        Mockito.when(pokemonFactory.createPokemon(0, 613, 64, 4000, 4)).thenReturn(Bulbizarre);
+    }
+
+    @Test
+    public void testCreatePokemon() {
+        // Appeler la méthode testée
+        Pokemon result = pokemonFactory.createPokemon(0, 613, 64, 4000, 4);
+
+        // Vérifier que les valeurs du Pokemon sont correctes
+        assertEquals(0, result.getIndex());
+        assertEquals("Bulbizarre", result.getName());
+        assertEquals(126, result.getAttack());
+        assertEquals(126, result.getDefense());
+        assertEquals(90, result.getStamina());
+        assertEquals(613, result.getCp());
+        assertEquals(64, result.getHp());
+        assertEquals(4000, result.getDust());
+        assertEquals(4, result.getCandy());
+        assertEquals(56.0, result.getIv(), 0.01);
+
+        // Vérifie que la méthode createPokemon a été appelée une fois avec les bons paramètres
+        Mockito.verify(pokemonFactory).createPokemon(0, 613, 64, 4000, 4);
+    }
+
+    @After
+    public void tearDown() {
+        Bulbizarre = null;
+    }
+}
+
+```
+
+### Explications :
+
+L'ajout de `0.01` dans l'appel de la méthode `assertEquals(56.0, result.getIv(), 0.01)` est nécessaire car les valeurs de type **double** ou **float** (nombres à virgule flottante) peuvent avoir de légères imprécisions en raison de la manière dont elles sont représentées en mémoire.
+
+### Explication détaillée :
+
+Les calculs en virgule flottante ne sont pas toujours exacts, et il peut y avoir de petites erreurs d'arrondi. Pour cette raison, lorsque tu compares deux valeurs en virgule flottante dans un test, il est recommandé de fournir une **marge d'erreur** (aussi appelée **delta**) qui spécifie à quel point les deux valeurs peuvent différer tout en étant considérées comme égales.
+
+- **56.0** est la valeur attendue.
+- **result.getIv()** est la valeur obtenue lors du test.
+- **0.01** est la marge d'erreur acceptable (le delta) entre ces deux valeurs. Ici, cela signifie que les deux valeurs seront considérées comme égales tant que la différence entre elles est inférieure ou égale à 0.01.
+
+### Pourquoi c'est important ?
+
+Si tu essayais de comparer directement deux nombres en virgule flottante sans ce delta, même des différences infimes dues à l'arrondi ou aux calculs pourraient faire échouer le test, même si les valeurs sont pratiquement identiques. Le delta assure que ton test réussit même s'il y a de petites imprécisions.
+
+### Exemple concret :
+
+Si `result.getIv()` renvoie `56.001`, le test passerait parce que la différence avec `56.0` est de `0.001`, ce qui est inférieur au delta de `0.01`.
+
 
 
