@@ -17,7 +17,7 @@ public class PokemonTrainer {
 	private final IPokedex pokedex;
 	
 	/**
-	 * Default constructor.  
+	 * Default constructor.
 	 * 
 	 * @param name Trainer name.
 	 * @param team Trainer team.
