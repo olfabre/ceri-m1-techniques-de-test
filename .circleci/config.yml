@@ -27,7 +27,7 @@ jobs:
           command: ls -la target/surefire-reports  # Lister les rapports de tests
       - codecov/upload:
           token: CODECOV_TOKEN  # Utiliser le token Codecov défini dans les variables d'environnement de CircleCI
-          slug: olfabre/ceri-m1-techniques-de-test  # Ajouter le slug du dépôt
+          slug: ceri-m1-techniques-de-test  # Ajouter le slug du dépôt
 
 workflows:
   version: 2
