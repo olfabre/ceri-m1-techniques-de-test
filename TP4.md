@@ -206,3 +206,7 @@ J'ai modifié le fichier pom.xml pour Maven
 
 
 
+Ensuite j'ai activé dans Organization Settings/Advanced  de circleCI, Enable intelligent summaries of build failure messages pour avoir la raison de l'erreur avec IA de circileCI
+
+
+
