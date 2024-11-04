@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@4.0.1  # Ajout de l'orb Codecov
+
 executors:
   maven-executor:
     docker:
@@ -13,6 +16,12 @@ jobs:
       - run:
           name: Run Maven tests
           command: mvn test  # Exécuter les tests unitaires avec Maven
+      - run:
+          name: Generate Coverage Report
+          command: mvn jacoco:report  # Générer le rapport de couverture de JaCoCo
+      - codecov/upload:
+          token: $CODECOV_TOKEN  # Utiliser le token Codecov défini dans les variables d'environnement de CircleCI
+
 
 workflows:
   version: 2
