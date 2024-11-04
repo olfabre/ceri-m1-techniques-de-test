@@ -45,7 +45,7 @@ jobs:
           name: Upload to Codecov
           command: bash <(curl -s https://codecov.io/bash)
           environment:
-            CODECOV_TOKEN: $CODECOV_TOKEN  # Your token is added automatically here
+            CODECOV_TOKEN: 68f12931-afbd-4264-9191-d4e36b630c80  # Your token is added automatically here
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
