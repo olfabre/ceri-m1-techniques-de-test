@@ -43,7 +43,7 @@ jobs:
       # Upload the coverage report to Codecov.
       - run:
           name: Upload to Codecov
-          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKENs
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
