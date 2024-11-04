@@ -43,10 +43,10 @@ jobs:
           name: Generate Checkstyle Report
           command: mvn checkstyle:checkstyle  # Lister les rapports de tests
 
-      # Upload the coverage report to Codecov.
-      - run:
-          name: Upload to Codecov ok
-          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+      # Upload the coverage report to Codecov using the Codecov orb
+      - codecov/upload: # Utilisation de l'orb Codecov pour le téléchargement
+          file: ./target/site/jacoco/jacoco.xml # Spécifiez le chemin de votre rapport JaCoCo
+
 
 
 
