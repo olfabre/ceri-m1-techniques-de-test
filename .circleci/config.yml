@@ -20,7 +20,7 @@ jobs:
           name: Generate Coverage Report
           command: mvn jacoco:report  # Générer le rapport de couverture de JaCoCo
       - codecov/upload:
-          token: $CODECOV_TOKEN  # Utiliser le token Codecov défini dans les variables d'environnement de CircleCI
+          token: CODECOV_TOKEN  # Utiliser le token Codecov défini dans les variables d'environnement de CircleCI
 
 
 workflows:
