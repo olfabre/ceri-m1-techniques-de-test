@@ -15,19 +15,16 @@ jobs:
       - checkout  # Vérifier le code source
       - run:
           name: Show Maven Test Output
-          command: mvn test -X  # Exécuter les tests avec le mode debug
+          command: mvn clean install
       - run:
           name: Generate Coverage Report
-          command: mvn jacoco:report  # Générer le rapport de couverture de JaCoCo
+          command: mvn -e test -DskipTests=false
       - run:
-          name: List Coverage Report Directory
-          command: ls -la target/site/jacoco  # Lister le contenu du dossier
+          name: Collect coverage
+          command: mvn jacoco:report
       - run:
-          name: List Surefire Reports
-          command: ls -la target/surefire-reports  # Lister les rapports de tests
-      - codecov/upload:
-          token: CODECOV_TOKEN  # Utiliser le token Codecov défini dans les variables d'environnement de CircleCI
-
+          name: Upload coverage to Codecov
+          command: bash <(curl -s https://codecov.io/bash) -t CODECOV_TOKEN
 
 workflows:
   version: 2
