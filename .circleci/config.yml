@@ -2,9 +2,6 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-# Import the Codecov orb
-orbs:
-  codecov: codecov/codecov@4.0.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
 jobs:
@@ -36,12 +33,12 @@ jobs:
       # Generate the JaCoCo report after running the tests.
       - run:
           name: Generate Code Coverage Report
-          command: mvn jacoco:report # Lister le contenu du dossier
+          command: mvn jacoco:report
 
       # Add the Checkstyle report generation step
       - run:
           name: Generate Checkstyle Report
-          command: mvn checkstyle:checkstyle  # Lister les rapports de tests
+          command: mvn checkstyle:checkstyle
 
       # Upload the coverage report to Codecov.
       - run:
@@ -50,16 +47,10 @@ jobs:
           environment:
             CODECOV_TOKEN: $CODECOV_TOKEN  # Your token is added automatically here
 
-
-
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you .. want to run.
+    # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build-and-test:
-          filters:
-            branches:
-              only:
-                - master
+      - build-and-test
