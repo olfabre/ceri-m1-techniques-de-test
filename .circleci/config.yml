@@ -42,7 +42,7 @@ jobs:
 
       # Upload the coverage report to Codecov.
       - run:
-          name: Upload to Codecov
+          name: Upload to Codecov ok
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
 # Orchestrate jobs using workflows
