@@ -24,7 +24,7 @@ jobs:
           command: mvn jacoco:report
       - run:
           name: Upload coverage to Codecov
-          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+          command: bash <(curl -s https://codecov.io/bash) -t CODECOV_TOKEN
 
 workflows:
   version: 2
