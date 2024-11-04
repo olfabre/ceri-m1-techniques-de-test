@@ -210,3 +210,8 @@ Ensuite j'ai activé dans Organization Settings/Advanced  de circleCI, Enable in
 
 
 
+```html
+<a href="https://codecov.io/github/olfabre/ceri-m1-techniques-de-test" >
+<img src="https://codecov.io/github/olfabre/ceri-m1-techniques-de-test/branch/master/graph/badge.svg?token=4LFWQGVEUR"/>
+</a>
+```
