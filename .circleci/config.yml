@@ -38,8 +38,3 @@ workflows:
             branches:
               only:
                 - master  # Exécuter uniquement sur la branche master
-
-  upload-to-codecov:
-    jobs:
-      - checkout
-      - codecov/upload
