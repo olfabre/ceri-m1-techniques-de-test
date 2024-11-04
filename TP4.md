@@ -4,7 +4,11 @@
 
 ### Mes explication sur le cours des tests
 
+sites:
 
+https://app.circleci.com/
+
+https://app.codecov.io/github/olfabre
 
 #### Épisode 1 - Code coverage
 
@@ -76,40 +80,69 @@ Pour intégrer l'orb Codecov dans votre configuration existante tout en conserva
 Voici à quoi devrait ressembler votre fichier `.circleci/config.yml` après modification :
 
 ```yaml
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
+# Import the Codecov orb
 orbs:
-  codecov: codecov/codecov@4.0.1  # Ajout de l'orb Codecov
-
-executors:
-  maven-executor:
-    docker:
-      - image: maven:3.8.4-openjdk-11  # Utilisation d'une image avec Maven et OpenJDK 11
-
+  codecov: codecov/codecov@4.0.1
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  build:
-    executor: maven-executor  # Utilisation de l'exécuteur défini ci-dessus
+  # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
+  build-and-test:
+    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/docs/configuration-reference/#executor-job
+    docker:
+      # Specify the version you desire here
+      # See: https://circleci.com/developer/images/image/cimg/openjdk
+      - image: cimg/openjdk:21.0
+
+    # Add steps to the job
+    # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
     steps:
-      - checkout  # Vérifier le code source
+      # Checkout the code as the first step.
+      - checkout
+
+      # Use mvn clean and package as the standard maven build phase
       - run:
-          name: Run Maven tests
-          command: mvn test  # Exécuter les tests unitaires avec Maven
+          name: Build
+          command: mvn -B -DskipTests clean package
+
+      # Then run your tests!
       - run:
-          name: Generate Coverage Report
-          command: mvn jacoco:report  # Générer le rapport de couverture de JaCoCo
-      - codecov/upload:
-          token: CODECOV_TOKEN  # Utiliser le token Codecov défini dans les variables d'environnement de CircleCI
+          name: Test
+          command: mvn test
+
+      # Generate the JaCoCo report after running the tests.
+      - run:
+          name: Generate Code Coverage Report
+          command: mvn jacoco:report # Lister le contenu du dossier
+
+      # Add the Checkstyle report generation step
+      - run:
+          name: Generate Checkstyle Report
+          command: mvn checkstyle:checkstyle  # Lister les rapports de tests
+
+      # Upload the coverage report to Codecov.
+      - run:
+          name: Upload to Codecov
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN -s target/site/jacoco -r "olfabre/ceri-m1-techniques-de-test"
 
 
+
+# Orchestrate jobs using workflows
+# See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  version: 2
-  build:
+  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you .. want to run.
     jobs:
-      - build:
+      - build-and-test:
           filters:
             branches:
               only:
-                - master  # Exécu
+                - master
 ```
 
 
@@ -179,7 +212,7 @@ J'ai modifié le fichier pom.xml pour Maven
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.9</version> <!-- Utilisez la dernière version disponible -->
+                <version>0.8.7</version> <!-- Utilisez la dernière version disponible -->
                 <executions>
                     <execution>
                         <goals>
@@ -188,12 +221,17 @@ J'ai modifié le fichier pom.xml pour Maven
                     </execution>
                     <execution>
                         <id>report</id>
-                        <phase>verify</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
             </plugin>
         </plugins>
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -201,17 +239,7 @@ J'ai modifié le fichier pom.xml pour Maven
     </build>
 </project>
 
-
 ```
 
 
 
-Ensuite j'ai activé dans Organization Settings/Advanced  de circleCI, Enable intelligent summaries of build failure messages pour avoir la raison de l'erreur avec IA de circileCI
-
-
-
-```html
-<a href="https://codecov.io/github/olfabre/ceri-m1-techniques-de-test" >
-<img src="https://codecov.io/github/olfabre/ceri-m1-techniques-de-test/branch/master/graph/badge.svg?token=4LFWQGVEUR"/>
-</a>
-```
