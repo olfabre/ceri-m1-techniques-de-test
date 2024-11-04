@@ -46,7 +46,7 @@ jobs:
       # Upload the coverage report to Codecov.
       - run:
           name: Upload to Codecov
-          command: CODECOV_TOKEN=$CODECOV_TOKEN bash <(curl -s https://codecov.io/bash)
+          command: bash <(curl -s https://codecov.io/bash) -f target/site/jacoco/jacoco.xml -t $CODECOV_TOKEN
 
 
 
