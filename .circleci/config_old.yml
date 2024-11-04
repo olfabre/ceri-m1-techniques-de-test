@@ -1,0 +1,37 @@
+version: 2.1
+
+orbs:
+  codecov: codecov/codecov@4.0.1  # Ajout de l'orb Codecov
+
+executors:
+  maven-executor:
+    docker:
+      - image: maven:3.8.4-openjdk-11  # Utilisation d'une image avec Maven et OpenJDK 11
+
+jobs:
+  build:
+    executor: maven-executor  # Utilisation de l'exécuteur défini ci-dessus
+    steps:
+      - checkout  # Vérifier le code source
+      - run:
+          name: Show Maven Test Output
+          command: mvn clean install
+      - run:
+          name: Generate Coverage Report
+          command: mvn -e test -DskipTests=false
+      - run:
+          name: Collect coverage
+          command: mvn jacoco:report
+      - run:
+          name: Upload coverage to Codecov
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master  # Exécuter uniquement sur la branche master
