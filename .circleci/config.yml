@@ -33,12 +33,12 @@ jobs:
       # Generate the JaCoCo report after running the tests.
       - run:
           name: Generate Code Coverage Report
-          command: ls -la target/site/jacoco  # Lister le contenu du dossier
+          command: ls -la ./target/site/jacoco  # Lister le contenu du dossier
 
       # Add the Checkstyle report generation step
       - run:
           name: Generate Checkstyle Report
-          command: ls -la target/surefire-reports  # Lister les rapports de tests
+          command: ls -la ./target/surefire-reports  # Lister les rapports de tests
 
       # Upload the coverage report to Codecov.
       - run:
