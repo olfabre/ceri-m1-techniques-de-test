@@ -33,7 +33,7 @@ jobs:
       # Generate the JaCoCo report after running the tests.
       - run:
           name: Generate Code Coverage Report
-          command: ls -la ./target/site  # Lister le contenu du dossier
+          command: mvn jacoco:report # Lister le contenu du dossier
 
       # Add the Checkstyle report generation step
       - run:
