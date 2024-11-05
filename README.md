@@ -1,14 +1,12 @@
-# UCE Génie Logiciel Avancé
-
-# Techniques de tests
+# UCE Génie Logiciel Avancé - Techniques de Tests
 
 
 
 ## BADGES
 
-Olivier FABRE
-upav 2104042
-Master 1 ILSEN Classic 1 Group 1
+Olivier FABRE  
+upav 2104042  
+Master 1 ILSEN Classic 1 Group 1      
 
 **CircleCI - Intégration Continue**
 
