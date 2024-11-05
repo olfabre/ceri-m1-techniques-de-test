@@ -243,3 +243,29 @@ J'ai modifié le fichier pom.xml pour Maven
 
 
 
+#### Épisode 2 - Badger Badger Badger
+
+Nous allons placer les badges CircleCI et pour la couverture de test sur mon fichier README.md
+
+##### CircleCI
+
+Dans Project Settings / Status Badges , un outil est disponible pour générer des badges de statut CircleCI.
+
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/7MzTkwBFxHK2MkeUAifbjS/2LAHbRt645vW3tJZXN6rXF/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/7MzTkwBFxHK2MkeUAifbjS/2LAHbRt645vW3tJZXN6rXF/tree/master)
+
+
+
+##### CodeCov
+
+Dans Configuration / Badges & Graphsn, un outil est disponible pour générér des badges de couverture pour mon dépôt **olfabre/ceri-m1-techniques-de-test**
+
+[![codecov](https://codecov.io/github/olfabre/ceri-m1-techniques-de-test/branch/master/graph/badge.svg?token=4LFWQGVEUR)](https://codecov.io/github/olfabre/ceri-m1-techniques-de-test)
+
+
+
+
+
+#### Épisode 3 - Make it work !
+
+Je vais développer les implémentation des interfaces en maintenant un niveau de qualité optimal.
+
