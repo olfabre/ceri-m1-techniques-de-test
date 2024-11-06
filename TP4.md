@@ -274,3 +274,6 @@ Voici le diagramme de classes
 
 
 ![0](explications_images/0.png)
+
+
+Nous allons implémenter les méthodes de 

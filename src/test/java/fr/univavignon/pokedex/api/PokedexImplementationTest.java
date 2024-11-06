@@ -78,4 +78,12 @@ public class PokedexImplementationTest {
         assertEquals("olivier", metadata.getName());
         assertThrows(PokedexException.class, () -> pokedex.getPokemonMetadata(150));
     }
+
+    @After
+    public void nettoyer() {
+        pokedex = null;
+        pokemon = null;
+    }
+
+
 }
