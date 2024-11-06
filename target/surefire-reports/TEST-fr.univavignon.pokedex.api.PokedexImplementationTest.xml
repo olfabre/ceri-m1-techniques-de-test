@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="fr.univavignon.pokedex.api.IPokedexTest" time="0.028" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="fr.univavignon.pokedex.api.PokedexImplementationTest" time="0.181" tests="7" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -58,9 +58,11 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testSize" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.003"/>
-  <testcase name="testGetPokemonsSorted" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.011"/>
-  <testcase name="testGetPokemon" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.005"/>
-  <testcase name="testAddPokemon" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.005"/>
-  <testcase name="testGetPokemons" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.004"/>
+  <testcase name="testSize" classname="fr.univavignon.pokedex.api.PokedexImplementationTest" time="0.011"/>
+  <testcase name="testCreatePokemon" classname="fr.univavignon.pokedex.api.PokedexImplementationTest" time="0"/>
+  <testcase name="testGetPokemon" classname="fr.univavignon.pokedex.api.PokedexImplementationTest" time="0.002"/>
+  <testcase name="testGetPokemonsWithOrder" classname="fr.univavignon.pokedex.api.PokedexImplementationTest" time="0.007"/>
+  <testcase name="testAddPokemon" classname="fr.univavignon.pokedex.api.PokedexImplementationTest" time="0.001"/>
+  <testcase name="testGetPokemonMetadata" classname="fr.univavignon.pokedex.api.PokedexImplementationTest" time="0.001"/>
+  <testcase name="testGetPokemons" classname="fr.univavignon.pokedex.api.PokedexImplementationTest" time="0.001"/>
 </testsuite>
