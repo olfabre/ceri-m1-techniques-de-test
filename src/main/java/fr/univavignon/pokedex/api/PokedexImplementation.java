@@ -11,11 +11,18 @@ public class PokedexImplementation implements IPokedex {
 
     // Liste pour stocker les Pokémon ajoutés au Pokédex
     private List<Pokemon> pokemons;
-
+    private IPokemonMetadataProvider metadataProvider;
+    private IPokemonFactory pokemonFactory;
 
 
     // Constructeur
     public PokedexImplementation() {
+        this.pokemons = new ArrayList<>();
+    }
+
+    public PokedexImplementation(IPokemonMetadataProvider metadataProvider, IPokemonFactory pokemonFactory) {
+        this.metadataProvider = metadataProvider;
+        this.pokemonFactory = pokemonFactory;
         this.pokemons = new ArrayList<>();
     }
 

@@ -1,19 +1,16 @@
 	package fr.univavignon.pokedex.api;
 
 	/**
-	 * Factory interface for class that aims to create IPokedex instance.
-	 *
-	 * @author fv
+	 * Interface d'usine pour la classe qui vise à créer une instance d'IPokedex.
 	 */
 	public interface IPokedexFactory {
 
 		/**
-		 * Creates a new pokedex instance using the given
-		 * <tt>metadataProvider</tt> and <tt>pokemonFactory</tt>.
+		 * Crée une nouvelle instance de pokedex en utilisant le metadataProvider et le pokemonFactory donnés.
 		 *
-		 * @param metadataProvider Metadata provider the created pokedex will use.
-		 * @param pokemonFactory Pokemon factory the created pokedex will use.
-		 * @return Created pokedex instance.
+		 * @param metadataProvider Fournisseur de métadonnées que le pokedex créé utilisera.
+		 * @param pokemonFactory Fabrique de pokémons que le pokedex créé utilisera.
+		 * @return Instance de pokedex créée.
 		 */
 		IPokedex createPokedex(IPokemonMetadataProvider metadataProvider, IPokemonFactory pokemonFactory);
 

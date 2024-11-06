@@ -275,5 +275,240 @@ Voici le diagramme de classes
 
 ![0](explications_images/0.png)
 
+Nous allons implémenter les méthodes de l'interface `IPokedex` qui étend les interfaces `IPokemonMetadataProvider` et `IPokemonFactory` dans une nouvelle classe`PokedexImplementation.java`
 
-Nous allons implémenter les méthodes de 
+Nous allons tester cette nouvelle classe à partir de la classe PokedexImplementationTest.java
+
+==PokedexImplementation.java==
+
+
+
+```java
+package fr.univavignon.pokedex.api;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+
+
+public class PokedexImplementation implements IPokedex {
+
+    // Liste pour stocker les Pokémon ajoutés au Pokédex
+    private List<Pokemon> pokemons;
+
+
+
+    // Constructeur
+    public PokedexImplementation() {
+        this.pokemons = new ArrayList<>();
+    }
+
+
+    /**
+     * Retourne le nombre de Pokémon dans ce Pokédex.
+     *
+     * @return Nombre de Pokémon dans ce Pokédex.
+     */
+    @Override
+    public int size() {
+        return pokemons.size();
+    }
+
+
+    /**
+     * Ajoute un Pokémon au Pokédex et retourne son index unique.
+     *
+     * @param pokemon Pokémon à ajouter.
+     * @return Index de ce Pokémon dans le Pokédex.
+     */
+    @Override
+    public int addPokemon(Pokemon pokemon) {
+        pokemons.add(pokemon);
+        return pokemons.size() - 1; // Retourne l'index du dernier Pokémon ajouté (indice qui commence à zéro)
+    }
+
+
+
+
+    /**
+     * Récupère un Pokémon par son ID.
+     *
+     * @param id Identifiant unique dans le Pokédex.
+     * @return Pokémon correspondant à cet ID.
+     * @throws PokedexException Si l'ID n'est pas valide.
+     */
+    @Override
+    public Pokemon getPokemon(int id) throws PokedexException {
+        if (id < 0 || id >= pokemons.size()) {
+            throw new PokedexException("ID de Pokémon invalide.");
+        }
+        return pokemons.get(id);
+    }
+
+
+
+    /**
+     * Retourne une liste non modifiable de tous les Pokémon dans le Pokédex.
+     *
+     * @return Liste non modifiable de tous les Pokémon.
+     */
+    @Override
+    public List<Pokemon> getPokemons() {
+        return Collections.unmodifiableList(pokemons);
+    }
+
+
+
+    /**
+     * Retourne une liste triée de tous les Pokémon dans le Pokédex en utilisant
+     * un comparateur spécifique.
+     *
+     * @param order Comparateur pour le tri.
+     * @return Liste triée et non modifiable de tous les Pokémon.
+     */
+    @Override
+    public List<Pokemon> getPokemons(Comparator<Pokemon> order) {
+        List<Pokemon> sortedPokemons = new ArrayList<>(pokemons);
+        sortedPokemons.sort(order);
+        return Collections.unmodifiableList(sortedPokemons);
+    }
+
+
+
+    /**
+     * Crée une instance de Pokémon en utilisant les paramètres fournis.
+     *
+     * @param index Index du Pokémon.
+     * @param cp Points de combat du Pokémon.
+     * @param hp Points de vie du Pokémon.
+     * @param dust Poussière requise pour améliorer le Pokémon.
+     * @param candy Bonbons requis pour améliorer le Pokémon.
+     * @return Instance de Pokémon créée avec les valeurs fournies.
+     */
+    @Override
+    public Pokemon createPokemon(int index, int cp, int hp, int dust, int candy) {
+
+            double iv = 50.0; // Par exemple, valeur de perfection IV par défaut
+            return new Pokemon(index, "olivier", 100, 100, 100, cp, hp, dust, candy, iv);
+    }
+
+
+    /**
+     * Récupère et retourne les métadonnées du Pokémon correspondant à l'index fourni.
+     *
+     * @param index Index du Pokémon dont les métadonnées doivent être récupérées.
+     * @return Métadonnées du Pokémon.
+     * @throws PokedexException Si l'index donné n'est pas valide.
+     */
+    @Override
+    public PokemonMetadata getPokemonMetadata(int index) throws PokedexException {
+        if (index < 0 || index >= 150) { // Supposons un maximum de 150 Pokémon
+            throw new PokedexException("Index de Pokémon invalide.");
+        }
+        return new PokemonMetadata(index, "olivier", 100, 100, 100);
+    }
+}
+```
+
+
+
+==PokedexImplementationTest.java==
+
+
+
+```java
+package fr.univavignon.pokedex.api;
+
+import org.junit.*;
+import static org.junit.Assert.*;
+import org.mockito.Mockito;
+
+import java.util.Comparator;
+import java.util.List;
+
+
+
+public class PokedexImplementationTest {
+
+    private PokedexImplementation pokedex;
+    private Pokemon pokemon;
+
+    @Before
+    public void initialiser() {
+        pokedex = new PokedexImplementation();
+        pokemon = new Pokemon(0, "Pikachu", 126, 126, 90, 500, 60, 4000, 3, 56.0);
+    }
+
+    @Test
+    public void testSize() {
+        assertEquals(0, pokedex.size());
+        pokedex.addPokemon(pokemon);
+        assertEquals(1, pokedex.size());
+    }
+
+    @Test
+    public void testAddPokemon() {
+        int index = pokedex.addPokemon(pokemon);
+        assertEquals(0, index);
+        assertEquals(1, pokedex.size());
+    }
+
+    @Test
+    public void testGetPokemon() throws PokedexException {
+        pokedex.addPokemon(pokemon);
+        Pokemon retrievedPokemon = pokedex.getPokemon(0);
+        assertEquals(pokemon, retrievedPokemon);
+
+        assertThrows(PokedexException.class, () -> pokedex.getPokemon(1));
+    }
+
+    @Test
+    public void testGetPokemons() {
+        pokedex.addPokemon(pokemon);
+        List<Pokemon> pokemons = pokedex.getPokemons();
+        assertEquals(1, pokemons.size());
+        assertEquals(pokemon, pokemons.get(0));
+    }
+
+    @Test
+    public void testGetPokemonsWithOrder() {
+        Pokemon pokemon2 = new Pokemon(1, "Bulbasaur", 118, 118, 90, 300, 45, 3000, 3, 45.0);
+        pokedex.addPokemon(pokemon);
+        pokedex.addPokemon(pokemon2);
+
+        List<Pokemon> sortedPokemons = pokedex.getPokemons(Comparator.comparing(Pokemon::getCp).reversed());
+        assertEquals(pokemon, sortedPokemons.get(0));
+        assertEquals(pokemon2, sortedPokemons.get(1));
+    }
+
+    @Test
+    public void testCreatePokemon() {
+        Pokemon createdPokemon = pokedex.createPokemon(0, 500, 60, 4000, 3);
+        assertNotNull(createdPokemon);
+        assertEquals(0, createdPokemon.getIndex());
+        assertEquals(500, createdPokemon.getCp());
+    }
+
+    @Test
+    public void testGetPokemonMetadata() throws PokedexException {
+        PokemonMetadata metadata = pokedex.getPokemonMetadata(0);
+        assertNotNull(metadata);
+        assertEquals(0, metadata.getIndex());
+        assertEquals("olivier", metadata.getName());
+        assertThrows(PokedexException.class, () -> pokedex.getPokemonMetadata(150));
+    }
+
+    @After
+    public void nettoyer() {
+        pokedex = null;
+        pokemon = null;
+    }
+
+
+}
+```
+
+
+
