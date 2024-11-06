@@ -267,5 +267,10 @@ Dans Configuration / Badges & Graphsn, un outil est disponible pour générér d
 
 #### Épisode 3 - Make it work !
 
-Je vais développer les implémentation des interfaces en maintenant un niveau de qualité optimal.
+Je vais développer les implémentations des interfaces en maintenant un niveau de qualité optimal.
 
+Voici le diagramme de classes
+
+
+
+![0](explications_images/0.png)
