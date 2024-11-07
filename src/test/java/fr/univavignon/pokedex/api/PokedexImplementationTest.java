@@ -43,6 +43,7 @@ public class PokedexImplementationTest {
         assertThrows(PokedexException.class, () -> pokedex.getPokemon(1));
     }
 
+
     @Test
     public void testGetPokemons() {
         pokedex.addPokemon(pokemon);
