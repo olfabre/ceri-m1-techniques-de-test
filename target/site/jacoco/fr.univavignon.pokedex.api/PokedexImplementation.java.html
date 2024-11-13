@@ -11,13 +11,23 @@ public class PokedexImplementation implements IPokedex {
 
     // Liste pour stocker les Pokémon ajoutés au Pokédex
     private List&lt;Pokemon&gt; pokemons;
-
+    private IPokemonMetadataProvider metadataProvider;
+    private IPokemonFactory pokemonFactory;
 
 
     // Constructeur
-<span class="fc" id="L18">    public PokedexImplementation() {</span>
-<span class="fc" id="L19">        this.pokemons = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L20">    }</span>
+<span class="fc" id="L19">    public PokedexImplementation() {</span>
+<span class="fc" id="L20">        this.pokemons = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L21">        this.metadataProvider = null;  // Initialisation par défaut</span>
+<span class="fc" id="L22">        this.pokemonFactory = null;    // Initialisation par défaut</span>
+<span class="fc" id="L23">    }</span>
+
+
+<span class="fc" id="L26">    public PokedexImplementation(IPokemonMetadataProvider metadataProvider, IPokemonFactory pokemonFactory) {</span>
+<span class="fc" id="L27">        this.metadataProvider = metadataProvider;</span>
+<span class="fc" id="L28">        this.pokemonFactory = pokemonFactory;</span>
+<span class="fc" id="L29">        this.pokemons = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L30">    }</span>
 
 
     /**
@@ -27,7 +37,7 @@ public class PokedexImplementation implements IPokedex {
      */
     @Override
     public int size() {
-<span class="fc" id="L30">        return pokemons.size();</span>
+<span class="fc" id="L40">        return pokemons.size();</span>
     }
 
 
@@ -39,8 +49,8 @@ public class PokedexImplementation implements IPokedex {
      */
     @Override
     public int addPokemon(Pokemon pokemon) {
-<span class="fc" id="L42">        pokemons.add(pokemon);</span>
-<span class="fc" id="L43">        return pokemons.size() - 1; // Retourne l'index du dernier Pokémon ajouté (indice qui commence à zéro)</span>
+<span class="fc" id="L52">        pokemons.add(pokemon);</span>
+<span class="fc" id="L53">        return pokemons.size() - 1; // Retourne l'index du dernier Pokémon ajouté (indice qui commence à zéro)</span>
     }
 
 
@@ -55,10 +65,10 @@ public class PokedexImplementation implements IPokedex {
      */
     @Override
     public Pokemon getPokemon(int id) throws PokedexException {
-<span class="pc bpc" id="L58" title="1 of 4 branches missed.">        if (id &lt; 0 || id &gt;= pokemons.size()) {</span>
-<span class="fc" id="L59">            throw new PokedexException(&quot;ID de Pokémon invalide.&quot;);</span>
+<span class="pc bpc" id="L68" title="1 of 4 branches missed.">        if (id &lt; 0 || id &gt;= pokemons.size()) {</span>
+<span class="fc" id="L69">            throw new PokedexException(&quot;ID de Pokémon invalide.&quot;);</span>
         }
-<span class="fc" id="L61">        return pokemons.get(id);</span>
+<span class="fc" id="L71">        return pokemons.get(id);</span>
     }
 
 
@@ -70,7 +80,7 @@ public class PokedexImplementation implements IPokedex {
      */
     @Override
     public List&lt;Pokemon&gt; getPokemons() {
-<span class="fc" id="L73">        return Collections.unmodifiableList(pokemons);</span>
+<span class="fc" id="L83">        return Collections.unmodifiableList(pokemons);</span>
     }
 
 
@@ -84,9 +94,9 @@ public class PokedexImplementation implements IPokedex {
      */
     @Override
     public List&lt;Pokemon&gt; getPokemons(Comparator&lt;Pokemon&gt; order) {
-<span class="fc" id="L87">        List&lt;Pokemon&gt; sortedPokemons = new ArrayList&lt;&gt;(pokemons);</span>
-<span class="fc" id="L88">        sortedPokemons.sort(order);</span>
-<span class="fc" id="L89">        return Collections.unmodifiableList(sortedPokemons);</span>
+<span class="fc" id="L97">        List&lt;Pokemon&gt; sortedPokemons = new ArrayList&lt;&gt;(pokemons);</span>
+<span class="fc" id="L98">        sortedPokemons.sort(order);</span>
+<span class="fc" id="L99">        return Collections.unmodifiableList(sortedPokemons);</span>
     }
 
 
@@ -103,9 +113,9 @@ public class PokedexImplementation implements IPokedex {
      */
     @Override
     public Pokemon createPokemon(int index, int cp, int hp, int dust, int candy) {
-
-<span class="fc" id="L107">            double iv = 50.0; // Par exemple, valeur de perfection IV par défaut</span>
-<span class="fc" id="L108">            return new Pokemon(index, &quot;olivier&quot;, 100, 100, 100, cp, hp, dust, candy, iv);</span>
+        // Crée un Pokémon avec les valeurs passées en paramètres
+<span class="fc" id="L117">        double iv = 50.0; // Exemple, valeur de perfection IV par défaut</span>
+<span class="fc" id="L118">        return new Pokemon(index, &quot;olivier&quot;, 126, 126, 90, cp, hp, dust, candy, iv); // Valeurs par défaut pour attack, defense, stamina</span>
     }
 
 
@@ -118,10 +128,10 @@ public class PokedexImplementation implements IPokedex {
      */
     @Override
     public PokemonMetadata getPokemonMetadata(int index) throws PokedexException {
-<span class="pc bpc" id="L121" title="1 of 4 branches missed.">        if (index &lt; 0 || index &gt;= 150) { // Supposons un maximum de 150 Pokémon</span>
-<span class="fc" id="L122">            throw new PokedexException(&quot;Index de Pokémon invalide.&quot;);</span>
+<span class="pc bpc" id="L131" title="1 of 4 branches missed.">        if (index &lt; 0 || index &gt;= 150) { // Supposons un maximum de 150 Pokémon</span>
+<span class="fc" id="L132">            throw new PokedexException(&quot;Index de Pokémon invalide.&quot;);</span>
         }
-<span class="fc" id="L124">        return new PokemonMetadata(index, &quot;olivier&quot;, 100, 100, 100);</span>
+<span class="fc" id="L134">        return new PokemonMetadata(index, &quot;olivier&quot;, 100, 100, 100);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

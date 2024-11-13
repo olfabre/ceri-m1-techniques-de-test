@@ -18,7 +18,10 @@ public class PokedexImplementation implements IPokedex {
     // Constructeur
     public PokedexImplementation() {
         this.pokemons = new ArrayList<>();
+        this.metadataProvider = null;  // Initialisation par défaut
+        this.pokemonFactory = null;    // Initialisation par défaut
     }
+
 
     public PokedexImplementation(IPokemonMetadataProvider metadataProvider, IPokemonFactory pokemonFactory) {
         this.metadataProvider = metadataProvider;
@@ -110,9 +113,9 @@ public class PokedexImplementation implements IPokedex {
      */
     @Override
     public Pokemon createPokemon(int index, int cp, int hp, int dust, int candy) {
-
-            double iv = 50.0; // Par exemple, valeur de perfection IV par défaut
-            return new Pokemon(index, "olivier", 100, 100, 100, cp, hp, dust, candy, iv);
+        // Crée un Pokémon avec les valeurs passées en paramètres
+        double iv = 50.0; // Exemple, valeur de perfection IV par défaut
+        return new Pokemon(index, "olivier", 126, 126, 90, cp, hp, dust, candy, iv); // Valeurs par défaut pour attack, defense, stamina
     }
 
 
