@@ -149,5 +149,64 @@ Nous allons ajouter Checkstyle à CircleCI
 
 Pour cela, nous allons modifier notre fichier `.circleci/config.yml` pour exécuter Checkstyle pendant la pipeline.
 
+```xml
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/configuration-reference
+version: 2.1
+
+# Import the Codecov orb
+orbs:
+  codecov: codecov/codecov@4.0.1
+
+# Define a job to be invoked later in a workflow.
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/openjdk:21.0
+    steps:
+      # Checkout the code as the first step.
+      - checkout
+
+      # Build the project
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package
+
+      # Run tests
+      - run:
+          name: Test
+          command: mvn test
+
+      # Generate the JaCoCo report
+      - run:
+          name: Generate Code Coverage Report
+          command: mvn jacoco:report
+
+      # Add Checkstyle verification
+      - run:
+          name: Run Checkstyle Verification
+          command: mvn checkstyle:check
+
+      # Generate Checkstyle HTML report
+      - run:
+          name: Generate Checkstyle HTML Report
+          command: mvn checkstyle:checkstyle
+
+      # Upload the coverage report to Codecov
+      - run:
+          name: Upload to Codecov
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN -s target/site/jacoco -r "olfabre/ceri-m1-techniques-de-test"
+
+workflows:
+  sample:
+    jobs:
+      - build-and-test:
+          filters:
+            branches:
+              only:
+                - master
+
+```
+
 
 
