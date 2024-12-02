@@ -6,10 +6,24 @@ package fr.univavignon.pokedex.api;
  */
 public enum Team {
 
-	MYSTIC,
+    /**
+     * The Mystic team.
+     */
+    MYSTIC,
 
-	INSTINCT,
+    /**
+     * The Instinct team.
+     */
+    INSTINCT,
 
-    RED, VALOR
+    /**
+     * The Red team.
+     */
+    RED,
+
+    /**
+     * The Valor team.
+     */
+    VALOR
 
 }

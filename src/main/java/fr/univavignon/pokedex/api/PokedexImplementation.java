@@ -9,9 +9,19 @@ import java.util.List;
 
 public class PokedexImplementation implements IPokedex {
 
-    // Liste pour stocker les Pokémon ajoutés au Pokédex
+    /**
+     * Liste pour stocker les Pokémon ajoutés au Pokédex.
+     */
     private List<Pokemon> pokemons;
+
+    /**
+     * Fournisseur de métadonnées pour les Pokémon.
+     */
     private IPokemonMetadataProvider metadataProvider;
+
+    /**
+     * Fabrique pour créer de nouveaux Pokémon.
+     */
     private IPokemonFactory pokemonFactory;
 
 
@@ -115,7 +125,7 @@ public class PokedexImplementation implements IPokedex {
     public Pokemon createPokemon(int index, int cp, int hp, int dust, int candy) {
         // Crée un Pokémon avec les valeurs passées en paramètres
         double iv = 50.0; // Exemple, valeur de perfection IV par défaut
-        return new Pokemon(index, "olivier", 126, 126, 90, cp, hp, dust, candy, iv); // Valeurs par défaut pour attack, defense, stamina
+        return new Pokemon(index, "olivier", 126, 126, 90, cp, hp, dust, candy, iv);
     }
 
 
