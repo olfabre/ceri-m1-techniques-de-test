@@ -1,3 +1,22 @@
+# TP5 Bulbapedia
+
+
+
+## Épisode 1
+
+Nous allons intégrer l'outil checkstyle dans notre processus afin de nous assurer que notre code respecte un ensemble de critères de qualité. Nous allons intégrer Checkstyle et l'utiliser avec CircleCI.
+
+On pensera également à intégrer le badge dans le fichier README.md présentant une versions condensée des conclusions du rapport généré.
+
+
+
+Etape 1:
+
+Nous allons ajouter le plugin Checkstyle au fichier `pom.xml`
+
+Modifiez la section `<plugins>` dans le fichier `pom.xml` pour inclure le plugin
+
+```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -88,3 +107,47 @@
         <testSourceDirectory>src/test/java</testSourceDirectory>
     </build>
 </project>
+```
+
+
+
+**`configLocation`** : Spécifie le fichier de configuration Checkstyle. Placez un fichier nommé `checkstyle.xml` dans le dossier `src/main/resources` ou à la racine du projet.
+
+**`failsOnError`** : Provoque une erreur si Checkstyle trouve des violations
+
+
+
+Etape 2:
+
+Nous allons créer un fichier  `checkstyle.xml` pour définir les règles de style de code.
+
+```xml
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <module name="TreeWalker">
+        <module name="JavadocMethod">
+            <property name="scope" value="public"/>
+        </module>
+        <module name="WhitespaceAround"/>
+        <module name="AvoidStarImport"/>
+        <module name="FinalLocalVariable"/>
+    </module>
+</module>
+
+```
+
+on place ce fichier au même niveau que pom.xml
+
+
+
+Etape 3:
+
+Nous allons ajouter Checkstyle à CircleCI
+
+Pour cela, nous allons modifier notre fichier `.circleci/config.yml` pour exécuter Checkstyle pendant la pipeline.
+
+
+
