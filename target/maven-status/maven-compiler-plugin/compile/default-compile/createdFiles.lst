@@ -4,10 +4,12 @@ fr/univavignon/pokedex/api/PokemonComparators.class
 fr/univavignon/pokedex/api/PokedexFactoryImplementation.class
 fr/univavignon/pokedex/api/IPokemonTrainerFactory.class
 fr/univavignon/pokedex/api/IPokemonFactory.class
+fr/univavignon/pokedex/api/PokemonFactoryImplementation.class
 fr/univavignon/pokedex/api/PokemonMetadata.class
 fr/univavignon/pokedex/api/PokemonTrainer.class
 fr/univavignon/pokedex/api/IPokemonMetadataProvider.class
 fr/univavignon/pokedex/api/Team.class
 fr/univavignon/pokedex/api/IPokedex.class
+fr/univavignon/pokedex/api/PokemonTrainerFactoryImplementation.class
 fr/univavignon/pokedex/api/Pokemon.class
 fr/univavignon/pokedex/api/IPokedexFactory.class

@@ -9,7 +9,7 @@ public enum Team {
 	MYSTIC,
 
 	INSTINCT,
-	
-	VALOR
+
+    RED, VALOR
 
 }
