@@ -70,6 +70,7 @@
                             <goal>badges</goal>
                         </goals>
                         <configuration>
+                            <outputDir>${project.build.directory}/badges</outputDir>
                             <inputFiles>
                                 <inputFile>target/checkstyle-result.xml</inputFile>
                             </inputFiles>
