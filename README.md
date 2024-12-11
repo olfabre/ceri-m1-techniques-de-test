@@ -16,6 +16,12 @@ Master 1 ILSEN Classic 1 Group 1
 
 [![codecov](https://codecov.io/github/olfabre/ceri-m1-techniques-de-test/branch/master/graph/badge.svg?token=4LFWQGVEUR)](https://codecov.io/github/olfabre/ceri-m1-techniques-de-test)
 
+**Check style - Verif Style**
+<img src="./checkstyle-result.svg"/> 
+
+[![Checkstyle](https://img.shields.io/badge/Checkstyle-Report-brightgreen)](https://github.com/olfabre/ceri-m1-techniques-de-test/blob/master/target/site/checkstyle.html)
+
+
 ---
 
 ## Mes sources 
