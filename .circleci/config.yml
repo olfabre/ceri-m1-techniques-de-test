@@ -60,8 +60,8 @@ jobs:
       - run:
           name: Install and configure gh-pages
           command: |
-            git config --global user.email "ci-build@olfabre.com"
-            git config --global user.name "ci-build"
+            git config --global user.email "olfabre@gmail.com"
+            git config --global user.name "olfabre"
 
             git clone git@github.com:olfabre/ceri-m1-techniques-de-test.git gh-pages
             cd gh-pages && git checkout -b gh-pages        
