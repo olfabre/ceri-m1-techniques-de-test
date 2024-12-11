@@ -607,6 +607,8 @@ Un projet n'est rien sans sa documentation, et c'est encore mieux si elle est g�
 
 Pour automatiser la génération et la publication de la Javadoc ainsi que l'intégration des rapports Checkstyle via GitHub Pages, nous pouvons suivre ces étapes :
 
+**Étape 1 : Génération de la Javadoc**
+
 Nous devons modifier `pom.xml`
 
 ```xml
@@ -743,6 +745,33 @@ Nous devons modifier `pom.xml`
 Cette configuration génère la Javadoc et la place dans le répertoire `target/site/apidocs`.
 
 ![11](explications_images/11.jpg)
+
+
+
+![12](explications_images/12.jpg)
+
+
+
+**Étape 2 : Vérification de la couverture de la Javadoc**
+
+Nius allons vérifier la configuration au plugin Checkstyle pour vérifier la couverture de votre Javadoc.
+
+
+
+```xml
+<module name="JavadocMethod">
+    <property name="scope" value="public"/>
+    <property name="allowMissingParamTags" value="false"/>
+    <property name="allowMissingThrowsTags" value="false"/>
+</module>
+```
+
+
+**Étape 3 : Configuration CircleCI pour générer et déployer la Javadoc**
+
+Ajoutez une configuration CircleCI pour générer la Javadoc, valider la qualité avec Checkstyle et publier la documentation.
+
+Nous allons modifier le fichier ` .circleci/config.yml`
 
 
 
