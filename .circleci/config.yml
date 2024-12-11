@@ -72,7 +72,7 @@ jobs:
             git push https://$TOKEN_JAVADOC@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages
 
 
-# Orchestrate jobs using workflows
+# Orchestrate jobs using workflows   
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   version: 2
