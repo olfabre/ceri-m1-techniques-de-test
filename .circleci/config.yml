@@ -44,6 +44,7 @@ jobs:
       - run:
           name: Upload to Codecov
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN -s target/site/jacoco -r "olfabre/ceri-m1-techniques-de-test"
+
   generate-and-deploy-javadoc:
     docker:
       - image: cimg/openjdk:21.0
@@ -64,19 +65,19 @@ jobs:
             cp -r target/site/apidocs/* docs/
             touch docs/.nojekyll
 
-      # Deploy Javadoc to GitHub Pages  
+      # Deploy Javadoc to GitHub Pages
       - run:
           name: Deploy Javadoc to GitHub Pages
           command: |
             git config --global user.email "ci-bot@yourdomain.com"
             git config --global user.name "CI Bot"
             git init
-            git remote add origin git@github.com:olfabre/ceri-m1-techniques-de-test.git
+            git remote add origin https://x-access-token:${TOKEN_JAVADOC}@github.com/olfabre/ceri-m1-techniques-de-test.git
             git fetch
             git checkout -B gh-pages
             git add docs/
             git commit -m "[skip ci] Update Javadoc"
-            git push origin gh-pages --force
+            git push https://x-access-token:${TOKEN_JAVADOC}@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages --force
 
 workflows:
   build-and-deploy:
