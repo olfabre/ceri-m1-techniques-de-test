@@ -62,7 +62,7 @@ jobs:
       - run:
           name: Generate Javadoc
           command: |
-            cd TP-techniques_de_test && mvn javadoc:javadoc
+            cd mvn javadoc:javadoc
 
       # Deployment
       - add_ssh_keys:
