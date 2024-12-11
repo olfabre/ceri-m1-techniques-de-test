@@ -45,49 +45,58 @@ jobs:
           name: Upload to Codecov
           command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN -s target/site/jacoco -r "olfabre/ceri-m1-techniques-de-test"
 
-  generate-and-deploy-javadoc:
+  docs-deploy:
     docker:
-      - image: cimg/openjdk:21.0
+      - image: cimg/openjdk:20.0
     steps:
-      # Checkout the code as the first step.
       - checkout
-
-      # Generate Javadoc
+      # Définir GIT_SSH_COMMAND pour forcer l'utilisation de la clé SSH spécifique
+      - run:
+          name: Set GIT_SSH_COMMAND to use the right SSH key
+          command: |
+            mkdir -p ~/.ssh
+            echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+      #Javadoc
       - run:
           name: Generate Javadoc
-          command: mvn javadoc:javadoc
-
-      # Prepare Javadoc for deployment
-      - run:
-          name: Prepare Deployment
           command: |
-            mkdir -p docs
-            cp -r target/site/apidocs/* docs/
-            touch docs/.nojekyll
+            cd TP-techniques_de_test && mvn javadoc:javadoc
 
-      # Deploy Javadoc to GitHub Pages
+      # Deployment
+      - add_ssh_keys:
+          fingerprints:
+            - "qITyO2Tnov81xKETeitS4dU1Yl5/fJtqXdVayrHrqe8"
       - run:
-          name: Deploy Javadoc to GitHub Pages
+          name: Install and configure gh-pages
           command: |
-            git config --global user.email "ci@circleci.com"
-            git config --global user.name "CircleCI"
-            git init
-            git remote add origin https://x-access-token:${TOKEN_JAVADOC}@github.com/olfabre/ceri-m1-techniques-de-test.git
-            git fetch
-            git checkout -B gh-pages
-            git add docs/
-            git commit -m "[skip ci] Update Javadoc"
-            git push https://x-access-token:${TOKEN_JAVADOC}@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages --force
+            git config --global user.email "ci-build@olfabre.com"
+            git config --global user.name "ci-build"
 
+            git clone git@github.com:${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
+            cd gh-pages && git checkout -b gh-pages        
+            cp -r TP-techniques_de_test/target/site/apidocs/* ./
+            
+            git add -A
+            git commit -m "[skip ci] Updated Javadoc"
+            git push origin gh-pages --force 
+
+
+# Orchestrate jobs using workflows
+# See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  build-and-deploy:
+  version: 2
+  sample-workflow: # This is the name of the workflow, feel free to change it to better match your workflow.
+    when:
+      branch: master
     jobs:
       - build-and-test:
           filters:
             branches:
               only:
                 - master
-      - generate-and-deploy-javadoc:
+      - docs-deploy:
           requires:
             - build-and-test
           filters:
