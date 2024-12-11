@@ -773,5 +773,147 @@ Ajoutez une configuration CircleCI pour générer la Javadoc, valider la qualit�
 
 Nous allons modifier le fichier ` .circleci/config.yml`
 
+mais avant, nous devons créer un token sur github
+
+<img src="explications_images/14.jpg" alt="14" style="zoom:50%;" />
 
 
+
+<img src="explications_images/15.jpg" alt="15" style="zoom:50%;" />
+
+
+
+Créer un token illimité avec tous les droits.
+Copier le token généré
+Aller dans CircleCI, dans 
+
+<img src="explications_images/16.jpg" alt="16" style="zoom:50%;" />
+
+dans le Project Settings du pipeline
+
+ensuite, on doit créer une variable d'environnement en lui donnant un nom et en copiant le token généré par github
+
+ici, c'est TOKEN_JAVADOC
+
+On revient sur la config de CircleCI
+
+```xml
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/configuration-reference
+version: 2.1
+
+# Import the Codecov orb
+orbs:
+  codecov: codecov/codecov@4.0.1
+
+# Define a job to be invoked later in a workflow.
+jobs:
+  build-and-test:
+    docker:
+      - image: cimg/openjdk:21.0
+    steps:
+      # Checkout the code as the first step.
+      - checkout
+
+      # Build the project
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package
+
+      # Run tests
+      - run:
+          name: Test
+          command: mvn test
+
+      # Generate the JaCoCo report
+      - run:
+          name: Generate Code Coverage Report
+          command: mvn jacoco:report
+
+      # Add Checkstyle verification
+      - run:
+          name: Run Checkstyle Verification
+          command: mvn checkstyle:check
+
+      # Generate Checkstyle HTML report
+      - run:
+          name: Generate Checkstyle HTML Report
+          command: mvn checkstyle:checkstyle
+
+      # Upload the coverage report to Codecov
+      - run:
+          name: Upload to Codecov
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN -s target/site/jacoco -r "olfabre/ceri-m1-techniques-de-test"
+
+  docs-deploy:
+    docker:
+      - image: cimg/openjdk:20.0
+    steps:
+      - checkout
+
+      - run:
+          name: Generate Javadoc
+          command: |
+            mvn javadoc:javadoc
+
+
+      - run:
+          name: Install and configure gh-pages
+          command: |
+            git config --global user.email "olfabre@gmail.com"
+            git config --global user.name "olfabre"
+
+            git clone https://$TOKEN_JAVADOC@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages
+            cd gh-pages && git checkout -b gh-pages        
+            cp -r target/site/apidocs/* ./
+            
+            git add -A
+            git commit -m "[skip ci] Updated Javadoc"
+            git push https://$TOKEN_JAVADOC@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages
+
+
+# Orchestrate jobs using workflows
+# See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
+workflows:
+  version: 2
+  sample-workflow: # This is the name of the workflow, feel free to change it to better match your workflow.
+    when:
+      branch: master
+    jobs:
+      - build-and-test:
+          filters:
+            branches:
+              only:
+                - master
+      - docs-deploy:
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only:
+                - master
+
+```
+
+bien mettre les éléments de connexion sur github
+
+git config --global user.email "olfabre@gmail.com"
+git config --global user.name "olfabre
+
+Ensuite créer une branche `gh-pages`
+
+Lancer un commit et regarder sur CircileCI
+
+![18](explications_images/18.jpg)
+
+Aller dans /pages sur github
+
+le lien est affiché Your site is live at https://olfabre.github.io/ceri-m1-techniques-de-test/
+
+![19](explications_images/19.jpg)
+
+
+
+On affiche la page de java doc 
+
+![20](explications_images/20.jpg)
