@@ -67,7 +67,7 @@ jobs:
       # Deployment
       - add_ssh_keys:
           fingerprints:
-            - "qITyO2Tnov81xKETeitS4dU1Yl5/fJtqXdVayrHrqe8"
+            - "SHA256:qITyO2Tnov81xKETeitS4dU1Yl5/fJtqXdVayrHrqe8"
       - run:
           name: Install and configure gh-pages
           command: |
@@ -76,7 +76,7 @@ jobs:
 
             git clone git@github.com:${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
             cd gh-pages && git checkout -b gh-pages        
-            cp -r /target/site/apidocs/* ./
+            cp -r target/site/apidocs/* ./
             
             git add -A
             git commit -m "[skip ci] Updated Javadoc"
