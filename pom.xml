@@ -52,13 +52,31 @@
                 <version>3.2.0</version>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
-                    <encoding>UTF-8</encoding>
+
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
                     <outputFile>target/checkstyle-result.xml</outputFile>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>com.github.bordertech.buildtools</groupId>
+                <artifactId>badger</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <id>verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>badges</goal>
+                        </goals>
+                        <configuration>
+                            <inputFiles>
+                                <inputFile>target/checkstyle-result.xml</inputFile>
+                            </inputFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- Plugin JaCoCo pour la couverture de code -->
             <plugin>
                 <groupId>org.jacoco</groupId>
