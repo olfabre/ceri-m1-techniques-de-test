@@ -63,16 +63,16 @@ jobs:
             git config --global user.email "olfabre@gmail.com"
             git config --global user.name "olfabre"
 
-            git clone --branch gh-pages https://$TOKEN_JAVADOC@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages
+            git clone https://$TOKEN_JAVADOC@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages
             cd gh-pages && git checkout -b gh-pages        
-            cp -r ./target/site/apidocs/* ./
+            cp -r ceri-m1-techniques-de-test/target/site/apidocs/* ./
             
             git add -A
             git commit -m "[skip ci] Updated Javadoc"
             git push https://$TOKEN_JAVADOC@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages
 
 
-# Orchestrate jobs using workflows   
+# Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   version: 2
