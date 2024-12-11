@@ -50,30 +50,13 @@ jobs:
       - image: cimg/openjdk:20.0
     steps:
       - checkout
-      # Définir GIT_SSH_COMMAND pour forcer l'utilisation de la clé SSH spécifique
-      - run:
-          name: Debug SSH Key Path
-          command: ls -la ~/.ssh
 
-      - run:
-          name: Start SSH Agent
-          command: |
-            ssh-agent -s
-            ssh-add ~/.ssh/id_rsa
-
-      - run:
-          name: Set Key Permissions
-          command: chmod 600 ~/.ssh/id_rsa
-      #Javadoc
       - run:
           name: Generate Javadoc
           command: |
             mvn javadoc:javadoc
 
-      # Deployment
-      - add_ssh_keys:
-          fingerprints:
-            - "SHA256:qITyO2Tnov81xKETeitS4dU1Yl5/fJtqXdVayrHrqe8"
+
       - run:
           name: Install and configure gh-pages
           command: |
@@ -86,7 +69,7 @@ jobs:
             
             git add -A
             git commit -m "[skip ci] Updated Javadoc"
-            git push origin gh-pages --force 
+            git push https://$TOKEN_JAVADOC@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages
 
 
 # Orchestrate jobs using workflows
