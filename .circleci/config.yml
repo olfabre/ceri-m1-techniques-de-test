@@ -63,14 +63,23 @@ jobs:
             git config --global user.email "olfabre@gmail.com"
             git config --global user.name "olfabre"
 
+            # Clone le dépôt
             git clone https://$TOKEN_JAVADOC@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages
-            cd gh-pages && git checkout -b gh-pages        
-            cp -r target/site/apidocs/* ./
-            
-            git add -A
-            git commit -m "[skip ci] Updated Javadoc"
-            git push https://$TOKEN_JAVADOC@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages
+            cd gh-pages
 
+            # Basculer ou créer la branche gh-pages
+            git checkout gh-pages || git checkout -b gh-pages
+
+            # Mettre à jour la branche gh-pages avec les changements distants
+            git pull origin gh-pages --rebase || echo "No remote changes to pull"
+
+            # Copier les fichiers Javadoc
+            cp -r target/site/apidocs/* ./
+
+            # Ajouter, committer et pousser les changements
+            git add -A
+            git commit -m "[skip ci] Updated Javadoc" || echo "No changes to commit"
+            git push https://$TOKEN_JAVADOC@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages --force
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
