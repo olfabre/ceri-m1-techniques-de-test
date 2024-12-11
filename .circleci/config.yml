@@ -74,7 +74,7 @@ jobs:
             git config --global user.email "ci-build@olfabre.com"
             git config --global user.name "ci-build"
 
-            git clone git@github.com:${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git gh-pages
+            git clone git@github.com:olfabre/ceri-m1-techniques-de-test.git gh-pages
             cd gh-pages && git checkout -b gh-pages        
             cp -r target/site/apidocs/* ./
             
