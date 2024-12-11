@@ -386,5 +386,363 @@ Le module `TreeWalker` est un "module parent" qui contient plusieurs autres modu
 
 
 
+Pour permettre la visualisation du badge, nous modifions le code `pom.xml`
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>fr.univavignon</groupId>
+    <artifactId>ceri-m1-techniques-de-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>CERI M1 Techniques de Test</name>
+    <description>Projet pour l'apprentissage des techniques de test d'API.</description>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- Encodage par défaut -->
+    </properties>
+
+    <dependencies>
+        <!-- Dépendance pour JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Dépendance pour Mockito -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.12.4</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <!-- Plugin Checkstyle -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <outputFile>target/checkstyle-result.xml</outputFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.bordertech.buildtools</groupId>
+                <artifactId>badger</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <id>verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>badges</goal>
+                        </goals>
+                        <configuration>
+                            <outputDir>${project.build.directory}/badges</outputDir>
+                            <inputFiles>
+                                <inputFile>target/checkstyle-result.xml</inputFile>
+                            </inputFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Plugin JaCoCo pour la couverture de code -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version> <!-- Utilisez la dernière version disponible -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+        </plugins>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+    </build>
+</project>
+
+```
+
+
+
+Cette configuration du plugin **Badger** dans votre `pom.xml` est bien structurée et permet d'éviter l'avertissement lié au répertoire de sortie manquant. Voici une explication détaillée de chaque partie de ce bloc et des actions qu'il effectue :
+
+------
+
+### **1. Structure et Rôle**
+
+```
+xml
+
+
+Copier le code
+<plugin>
+    <groupId>com.github.bordertech.buildtools</groupId>
+    <artifactId>badger</artifactId>
+    <version>1.0.0</version>
+```
+
+- **groupId** et **artifactId** : Identifient le plugin Maven spécifique (ici, Badger).
+- **version** : Spécifie la version utilisée.
+
+------
+
+### **2. Configuration des exécutions**
+
+```
+xml
+
+
+Copier le code
+<executions>
+    <execution>
+        <id>verify</id>
+        <phase>verify</phase>
+        <goals>
+            <goal>badges</goal>
+        </goals>
+```
+
+- **id** : Nom unique pour cette exécution. Ici, `verify`.
+- **phase** : Phase Maven où ce plugin est exécuté. Ici, `verify`, ce qui signifie qu'il s'exécute après les tests et vérifications (comme Checkstyle).
+- **goals** : Action spécifique réalisée par le plugin. Ici, la génération de badges avec `badges`.
+
+------
+
+### **3. Configuration du plugin**
+
+```
+xml
+
+
+Copier le code
+<configuration>
+    <outputDir>${project.build.directory}/badges</outputDir>
+    <inputFiles>
+        <inputFile>target/checkstyle-result.xml</inputFile>
+    </inputFiles>
+</configuration>
+```
+
+- **outputDir** : Définit où seront placés les badges générés. Ici, dans `target/badges`.
+- **inputFiles** : Liste des fichiers d'entrée que Badger transformera en badges. Ici, il s'agit du fichier `checkstyle-result.xml`, généré par Checkstyle.
+
+------
+
+### **4. Vérification et Génération**
+
+Pour tester cette configuration, exécutez la commande suivante dans le répertoire de votre projet Maven :
+
+```
+mvn verify
+```
+
+- Étapes attendues :
+  1. Le plugin Checkstyle génère le fichier `target/checkstyle-result.xml`.
+  2. Le plugin Badger transforme ce fichier XML en un badge SVG, stocké dans `target/badges`.
+
+![10](explications_images/10.jpg)
+
+------
+
+### **5. Points à vérifier si l'erreur persiste**
+
+1. **Chemin du fichier Checkstyle**
+   - Assurez-vous que le fichier `target/checkstyle-result.xml` est généré avant que Badger ne s'exécute. Si ce fichier manque, Badger échouera.
+2. **Répertoire de sortie**
+   - Vérifiez que le répertoire `target/badges` est créé automatiquement ou existe déjà. Maven le crée généralement par défaut.
+3. **Versions des plugins**
+   - Vérifiez que les versions des plugins **Checkstyle** et **Badger** sont compatibles.
+
+
+
+**Check style - Verif Style**   
+<img src="./target/badges/checkstyle-result.svg"/>   
+
+
+
+## Épisode 2
+
+Un projet n'est rien sans sa documentation, et c'est encore mieux si elle est générée automatiquement ! Nous allons configurer notre intégration continue de manière à ce que la [Javadoc](https://www.oracle.com/java/technologies/javase/javadoc-tool.html) soit générée automatiquement et directement publiée au travers de GitHub Pages.
+
+
+Pour automatiser la génération et la publication de la Javadoc ainsi que l'intégration des rapports Checkstyle via GitHub Pages, nous pouvons suivre ces étapes :
+
+Nous devons modifier `pom.xml`
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>fr.univavignon</groupId>
+    <artifactId>ceri-m1-techniques-de-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>CERI M1 Techniques de Test</name>
+    <description>Projet pour l'apprentissage des techniques de test d'API.</description>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- Encodage par défaut -->
+    </properties>
+
+    <dependencies>
+        <!-- Dépendance pour JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Dépendance pour Mockito -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.12.4</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <!-- Plugin Checkstyle -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <outputFile>target/checkstyle-result.xml</outputFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.bordertech.buildtools</groupId>
+                <artifactId>badger</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <id>verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>badges</goal>
+                        </goals>
+                        <configuration>
+                            <outputDir>${project.build.directory}/badges</outputDir>
+                            <inputFiles>
+                                <inputFile>target/checkstyle-result.xml</inputFile>
+                            </inputFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Plugin JaCoCo pour la couverture de code -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version> <!-- Utilisez la dernière version disponible -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-javadoc</id>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <phase>verify</phase>
+                        <configuration>
+                            <reportOutputDirectory>${project.build.directory}/site/apidocs</reportOutputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+    </build>
+</project>
+
+```
+
+Cette configuration génère la Javadoc et la place dans le répertoire `target/site/apidocs`.
+
+![11](explications_images/11.jpg)
+
 
 
