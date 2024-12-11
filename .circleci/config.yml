@@ -65,7 +65,7 @@ jobs:
 
             git clone https://$TOKEN_JAVADOC@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages
             cd gh-pages && git checkout -b gh-pages        
-            cp -r ceri-m1-techniques-de-test/target/site/apidocs/* ./
+            cp -r target/site/apidocs/* ./
             
             git add -A
             git commit -m "[skip ci] Updated Javadoc"
