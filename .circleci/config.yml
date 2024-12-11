@@ -64,7 +64,7 @@ jobs:
             cp -r target/site/apidocs/* docs/
             touch docs/.nojekyll
 
-      # Deploy Javadoc to GitHub Pages
+      # Deploy Javadoc to GitHub Pages  
       - run:
           name: Deploy Javadoc to GitHub Pages
           command: |
