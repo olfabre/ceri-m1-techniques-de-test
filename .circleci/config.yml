@@ -63,7 +63,7 @@ jobs:
             git config --global user.email "olfabre@gmail.com"
             git config --global user.name "olfabre"
 
-            git clone git@github.com:olfabre/ceri-m1-techniques-de-test.git gh-pages
+            git clone https://$TOKEN_JAVADOC@github.com/olfabre/ceri-m1-techniques-de-test.git gh-pages
             cd gh-pages && git checkout -b gh-pages        
             cp -r /target/site/apidocs/* ./
             
