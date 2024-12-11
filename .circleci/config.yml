@@ -52,12 +52,18 @@ jobs:
       - checkout
       # Définir GIT_SSH_COMMAND pour forcer l'utilisation de la clé SSH spécifique
       - run:
-          name: Set GIT_SSH_COMMAND to use the right SSH key
+          name: Debug SSH Key Path
+          command: ls -la ~/.ssh
+
+      - run:
+          name: Start SSH Agent
           command: |
-            mkdir -p ~/.ssh
-            echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-            chmod 600 ~/.ssh/id_rsa
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
+            ssh-agent -s
+            ssh-add ~/.ssh/id_rsa
+
+      - run:
+          name: Set Key Permissions
+          command: chmod 600 ~/.ssh/id_rsa
       #Javadoc
       - run:
           name: Generate Javadoc
