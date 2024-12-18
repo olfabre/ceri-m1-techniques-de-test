@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: fr.univavignon.pokedex.api.IPokemonFactoryTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.447 s - in fr.univavignon.pokedex.api.IPokemonFactoryTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.534 s - in fr.univavignon.pokedex.api.IPokemonFactoryTest

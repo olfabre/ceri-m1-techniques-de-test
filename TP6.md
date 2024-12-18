@@ -408,3 +408,15 @@ public class RocketPokemonFactory implements IPokemonFactory {
 
 ```
 
+Tout est maintenant ok.
+
+![23](explications_images/23.jpg)
+
+
+
+Couverture de test a maintenant baissé. Nous devons faire les tests unitaires à la nouvelle implémentation
+
+![24](explications_images/24.jpg)
+
+
+

@@ -10,7 +10,7 @@ import org.apache.commons.collections4.map.UnmodifiableMap;
  * Une fabrique permettant de créer des instances de Pokémon.
  * Cette fabrique inclut des Pokémon spéciaux tels que le Pikachu de Sacha et MISSINGNO.
  */
-<span class="nc" id="L13">public class RocketPokemonFactory implements IPokemonFactory {</span>
+<span class="fc" id="L13">public class RocketPokemonFactory implements IPokemonFactory {</span>
 
     /**
      * Une carte (map) immuable associant les indices des Pokémon à leurs noms.
@@ -20,13 +20,13 @@ import org.apache.commons.collections4.map.UnmodifiableMap;
 
     // Initialisation statique de la carte des noms de Pokémon
     static {
-<span class="nc" id="L23">        Map&lt;Integer, String&gt; aMap = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L24">        aMap.put(-1, &quot;Ash's Pikachu&quot;); // Le Pikachu de Sacha</span>
-<span class="nc" id="L25">        aMap.put(0, &quot;MISSINGNO&quot;);      // Pokémon manquant</span>
-<span class="nc" id="L26">        aMap.put(1, &quot;Bulbasaur&quot;);      // Bulbizarre</span>
+<span class="fc" id="L23">        Map&lt;Integer, String&gt; aMap = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L24">        aMap.put(-1, &quot;Ash's Pikachu&quot;); // Le Pikachu de Sacha</span>
+<span class="fc" id="L25">        aMap.put(0, &quot;MISSINGNO&quot;);      // Pokémon manquant</span>
+<span class="fc" id="L26">        aMap.put(1, &quot;Bulbasaur&quot;);      // Bulbizarre</span>
         // TODO : Ajouter les autres Pokémon
-<span class="nc" id="L28">        index2name = UnmodifiableMap.unmodifiableMap(aMap);</span>
-<span class="nc" id="L29">    }</span>
+<span class="fc" id="L28">        index2name = UnmodifiableMap.unmodifiableMap(aMap);</span>
+<span class="fc" id="L29">    }</span>
 
     /**
      * Génère une statistique aléatoire pour un Pokémon en simulant un grand nombre de valeurs aléatoires.
@@ -34,13 +34,13 @@ import org.apache.commons.collections4.map.UnmodifiableMap;
      * @return La moyenne des valeurs générées.
      */
     private static int generateRandomStat() {
-<span class="nc" id="L37">        int total = 0;</span>
-<span class="nc bnc" id="L38" title="All 2 branches missed.">        for (int i = 0; i &lt; 1000000; i++) {</span>
-<span class="nc" id="L39">            Random rn = new Random();</span>
-<span class="nc" id="L40">            int r = rn.nextInt(2);</span>
-<span class="nc" id="L41">            total = total + r;</span>
+<span class="fc" id="L37">        int total = 0;</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        for (int i = 0; i &lt; 1000000; i++) {</span>
+<span class="fc" id="L39">            Random rn = new Random();</span>
+<span class="fc" id="L40">            int r = rn.nextInt(2);</span>
+<span class="fc" id="L41">            total = total + r;</span>
         }
-<span class="nc" id="L43">        return total / 10000;</span>
+<span class="fc" id="L43">        return total / 10000;</span>
     }
 
     /**
@@ -57,10 +57,10 @@ import org.apache.commons.collections4.map.UnmodifiableMap;
     public Pokemon createPokemon(int index, int cp, int hp, int dust, int candy) {
         // Détermine le nom du Pokémon
         String name;
-<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (!index2name.containsKey(index)) {</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (!index2name.containsKey(index)) {</span>
 <span class="nc" id="L61">            name = index2name.get(0); // Si l'index est inconnu, utilise MISSINGNO</span>
         } else {
-<span class="nc" id="L63">            name = index2name.get(index);</span>
+<span class="fc" id="L63">            name = index2name.get(index);</span>
         }
 
         // Déclaration des statistiques
@@ -70,20 +70,20 @@ import org.apache.commons.collections4.map.UnmodifiableMap;
         double iv;
 
         // Cas spécial pour les indices négatifs
-<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (index &lt; 0) {</span>
-<span class="nc" id="L74">            attack = 1000;</span>
-<span class="nc" id="L75">            defense = 1000;</span>
-<span class="nc" id="L76">            stamina = 1000;</span>
-<span class="nc" id="L77">            iv = 0;</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (index &lt; 0) {</span>
+<span class="fc" id="L74">            attack = 1000;</span>
+<span class="fc" id="L75">            defense = 1000;</span>
+<span class="fc" id="L76">            stamina = 1000;</span>
+<span class="fc" id="L77">            iv = 0;</span>
         } else {
-<span class="nc" id="L79">            attack = RocketPokemonFactory.generateRandomStat();</span>
-<span class="nc" id="L80">            defense = RocketPokemonFactory.generateRandomStat();</span>
-<span class="nc" id="L81">            stamina = RocketPokemonFactory.generateRandomStat();</span>
-<span class="nc" id="L82">            iv = 1;</span>
+<span class="fc" id="L79">            attack = RocketPokemonFactory.generateRandomStat();</span>
+<span class="fc" id="L80">            defense = RocketPokemonFactory.generateRandomStat();</span>
+<span class="fc" id="L81">            stamina = RocketPokemonFactory.generateRandomStat();</span>
+<span class="fc" id="L82">            iv = 1;</span>
         }
 
         // Retourne une instance de Pokémon
-<span class="nc" id="L86">        return new Pokemon(index, name, attack, defense, stamina, cp, hp, dust, candy, iv);</span>
+<span class="fc" id="L86">        return new Pokemon(index, name, attack, defense, stamina, cp, hp, dust, candy, iv);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
