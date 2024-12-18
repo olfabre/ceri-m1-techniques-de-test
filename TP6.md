@@ -10,7 +10,154 @@ Une implémentation de `IPokemonFactory`  a été remise et qui est meilleur que
 
 On doit intégrer cette implémentation dans notre projet et la passez au crible grâce à notre suite de tests et au travers d'une revue de code, on doit rédigez un succint rapport qui présente nos conclusions. Certains défauts de leur implémentation ne sont peut-être pas couverts par les tests que nous avons déjà mis en place, on ne doit pas hésitez pas à relever ces défauts aussi, et, si nous y parvenons, à mettre en place des tests pour les détecter automatiquement.
 
-**Etape 1: Nous allons étudier le code**
+**Etape 1: nous intégrons la nouvelle dépendance pour faire fonctionner le code améliorée**
+
+La dépendance **`commons-collections4`** d'Apache est une bibliothèque Java qui fait partie de l'ensemble Apache Commons. Elle fournit des implémentations améliorées et supplémentaires de collections (telles que les listes, les ensembles, les cartes, etc.) qui ne sont pas incluses dans la bibliothèque standard de Java. 
+Elle a été intégrée dans `pom.xml`
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>fr.univavignon</groupId>
+    <artifactId>ceri-m1-techniques-de-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>CERI M1 Techniques de Test</name>
+    <description>Projet pour l'apprentissage des techniques de test d'API.</description>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- Encodage par défaut -->
+    </properties>
+
+    <dependencies>
+        <!-- Dépendance pour JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Dépendance pour Mockito -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.12.4</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Dépendance commons-collections4 de Apache en version 4.0 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <!-- Plugin Checkstyle -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <outputFile>target/checkstyle-result.xml</outputFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.bordertech.buildtools</groupId>
+                <artifactId>badger</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <id>verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>badges</goal>
+                        </goals>
+                        <configuration>
+                            <outputDir>${project.build.directory}/badges</outputDir>
+                            <inputFiles>
+                                <inputFile>target/checkstyle-result.xml</inputFile>
+                            </inputFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Plugin JaCoCo pour la couverture de code -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version> <!-- Utilisez la dernière version disponible -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-javadoc</id>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <phase>verify</phase>
+                        <configuration>
+                            <reportOutputDirectory>${project.build.directory}/site/apidocs</reportOutputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+    </build>
+</project>
+
+```
+
+
+
+
+
+**Etape 1: nous allons étudier le code améliorée**
 
 ```java
 package fr.univavignon.pokedex.imp;
