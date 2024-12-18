@@ -157,7 +157,7 @@ Elle a été intégrée dans `pom.xml`
 
 
 
-**Etape 1: nous allons étudier le code améliorée**
+**Etape 2: nous allons étudier le code améliorée**
 
 ```java
 package fr.univavignon.pokedex.imp;
@@ -287,7 +287,124 @@ static {
 
 
 
+**Etape 3: nous allons jouter le code améliorée**
+
+Nous avons du réaliser des imports de bibliothèques pour l'ajout.
+
+Après un premier checkstyle:check:
+
+- le fichier comporte une redondance d'imports
+
+```java
+//import fr.univavignon.pokedex.api.IPokemonFactory;
+//import fr.univavignon.pokedex.api.Pokemon;
+```
+
+Nous les mettons en commentaire
+
+- le fichier contient des tabulations
+
+  ![21](explications_images/21.jpg)
+
+Nous les supprimons en réindentant les 4 espaces.
 
 
 
+- le fichier manque de commentaire JavaDoc
+
+  ![22](explications_images/22.jpg)
+
+Nous lui ajoutons les commentaires au format java doc
+
+```java
+package fr.univavignon.pokedex.api;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+import org.apache.commons.collections4.map.UnmodifiableMap;
+
+/**
+ * Une fabrique permettant de créer des instances de Pokémon.
+ * Cette fabrique inclut des Pokémon spéciaux tels que le Pikachu de Sacha et MISSINGNO.
+ */
+public class RocketPokemonFactory implements IPokemonFactory {
+
+    /**
+     * Une carte (map) immuable associant les indices des Pokémon à leurs noms.
+     * Comprend des entrées spéciales pour les Pokémon manquants et le Pikachu de Sacha.
+     */
+    private static Map<Integer, String> index2name;
+
+    // Initialisation statique de la carte des noms de Pokémon
+    static {
+        Map<Integer, String> aMap = new HashMap<>();
+        aMap.put(-1, "Ash's Pikachu"); // Le Pikachu de Sacha
+        aMap.put(0, "MISSINGNO");      // Pokémon manquant
+        aMap.put(1, "Bulbasaur");      // Bulbizarre
+        // TODO : Ajouter les autres Pokémon
+        index2name = UnmodifiableMap.unmodifiableMap(aMap);
+    }
+
+    /**
+     * Génère une statistique aléatoire pour un Pokémon en simulant un grand nombre de valeurs aléatoires.
+     * 
+     * @return La moyenne des valeurs générées.
+     */
+    private static int generateRandomStat() {
+        int total = 0;
+        for (int i = 0; i < 1000000; i++) {
+            Random rn = new Random();
+            int r = rn.nextInt(2);
+            total = total + r;
+        }
+        return total / 10000;
+    }
+
+    /**
+     * Crée une instance de Pokémon avec les attributs spécifiés.
+     *
+     * @param index L'indice du Pokémon dans le Pokédex.
+     * @param cp La puissance de combat (Combat Power) du Pokémon.
+     * @param hp Les points de vie (Hit Points) du Pokémon.
+     * @param dust Le coût en poussière d'étoile pour renforcer le Pokémon.
+     * @param candy Le nombre de bonbons disponibles pour faire évoluer ou renforcer le Pokémon.
+     * @return Une nouvelle instance de Pokémon avec des statistiques calculées ou prédéfinies.
+     */
+    @Override
+    public Pokemon createPokemon(int index, int cp, int hp, int dust, int candy) {
+        // Détermine le nom du Pokémon
+        String name;
+        if (!index2name.containsKey(index)) {
+            name = index2name.get(0); // Si l'index est inconnu, utilise MISSINGNO
+        } else {
+            name = index2name.get(index);
+        }
+
+        // Déclaration des statistiques
+        int attack;
+        int defense;
+        int stamina;
+        double iv;
+
+        // Cas spécial pour les indices négatifs
+        if (index < 0) {
+            attack = 1000;
+            defense = 1000;
+            stamina = 1000;
+            iv = 0;
+        } else {
+            attack = RocketPokemonFactory.generateRandomStat();
+            defense = RocketPokemonFactory.generateRandomStat();
+            stamina = RocketPokemonFactory.generateRandomStat();
+            iv = 1;
+        }
+
+        // Retourne une instance de Pokémon
+        return new Pokemon(index, name, attack, defense, stamina, cp, hp, dust, candy, iv);
+    }
+}
+
+```
 
