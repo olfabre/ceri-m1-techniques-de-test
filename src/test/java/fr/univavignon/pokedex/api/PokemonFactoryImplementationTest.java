@@ -76,7 +76,7 @@ public class PokemonFactoryImplementationTest {
     }
 
     @Test
-    public void testRocketFactoryWithNegativeIndex() {
+    public void testRocketFactoryAvecIndexNegatif() {
         Pokemon pokemon = rocketFactory.createPokemon(-1, 100, 100, 100, 100);
 
         assertEquals(-1, pokemon.getIndex());
