@@ -502,7 +502,30 @@ Mes tests  vérifient le bon fonctionnement des deux implémentations d'une inte
 
 **`testInvalidCp`** : vérifie le comportement de la fabrique lorsqu'un CP (Combat Power) invalide est fourni.
 
-Chaque méthode est appliquée aux 2 fabriques via les tests `testImplementationFactory` et `testRocketFactory`.
+Chaque méthode est appliquée aux 2 fabriques via mes tests `testImplementationFactory` et `testRocketFactory`.
+
+
+
+J'observe que sur Codecov, mes tests n'ont pas couvert la totalité de la classe `RocketPokemonFactory`
+
+![25](explications_images/25.jpg)
+
+Si je regarde en détail, il y a le cas ou l'index est inconnu, on doit utiliser MISSINGNO
+
+Nous allons implémenter le test pour ce cas
+
+![26](explications_images/26.jpg)
+
+Nous allons ajouter ce test
+
+```java
+@Test
+public void testRocketFactoryAvecIndexInconnu() {
+    Pokemon pokemon = rocketFactory.createPokemon(3000, 100, 100, 100, 100);
+    assertEquals(3000, pokemon.getIndex());
+    assertEquals("MISSINGNO", pokemon.getName());
+}
+```
 
 
 

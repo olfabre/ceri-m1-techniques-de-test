@@ -33,7 +33,7 @@ public class PokemonFactoryImplementationTest {
         assertTrue(pokemon.getIv() >= 0.0 && pokemon.getIv() <= 1.0);
     }
 
-    private void testInvalidIndex(IPokemonFactory factory) {
+    private void testNonValideIndex(IPokemonFactory factory) {
         // Création d'un Pokémon avec un index invalide
         Pokemon pokemon = factory.createPokemon(-1, 100, 100, 100, 100);
 
@@ -45,7 +45,7 @@ public class PokemonFactoryImplementationTest {
         }
     }
 
-    private void testInvalidCp(IPokemonFactory factory) {
+    private void testNonValideCp(IPokemonFactory factory) {
         // Création d'un Pokémon avec un cp invalide
         Pokemon pokemon = factory.createPokemon(1, -100, 100, 100, 100);
 
@@ -57,14 +57,21 @@ public class PokemonFactoryImplementationTest {
     @Test
     public void testImplementationFactory() {
         testCreatePokemon(implementationFactory);
-        testInvalidIndex(implementationFactory);
-        testInvalidCp(implementationFactory);
+        testNonValideIndex(implementationFactory);
+        testNonValideCp(implementationFactory);
     }
 
     @Test
     public void testRocketFactory() {
         testCreatePokemon(rocketFactory);
-        testInvalidIndex(rocketFactory);
-        testInvalidCp(rocketFactory);
+        testNonValideIndex(rocketFactory);
+        testNonValideCp(rocketFactory);
+    }
+
+    @Test
+    public void testRocketFactoryAvecIndexInconnu() {
+        Pokemon pokemon = rocketFactory.createPokemon(3000, 100, 100, 100, 100);
+        assertEquals(3000, pokemon.getIndex());
+        assertEquals("MISSINGNO", pokemon.getName());
     }
 }
