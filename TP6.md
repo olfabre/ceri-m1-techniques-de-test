@@ -529,3 +529,26 @@ public void testRocketFactoryAvecIndexInconnu() {
 
 
 
+Nous vérifions, on a bien couvert ce cas
+
+![27](explications_images/27.jpg)
+
+
+
+![28](explications_images/28.jpg)
+
+
+
+On n'est pas totalement à 100%
+Il manque le cas d'un index négatif (-1 de Pikatchu)
+
+si on regarde le code de la classe `RocketPokemonFactory`
+
+nous avons l'ajout dans la Map, d'un index négatif
+
+![Capture d’écran 2024-12-19 à 08.10.36](explications_images/Capture d’écran 2024-12-19 à 08.10.36.jpg)
+
+On va donc intégrer ce cas dans mes tests
+
+
+

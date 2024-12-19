@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="fr.univavignon.pokedex.api.IPokedexTest" time="0.021" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="fr.univavignon.pokedex.api.IPokedexTest" time="0.022" tests="5" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="FR"/>
     <property name="sun.boot.library.path" value="/Users/olfabre/Library/Java/JavaVirtualMachines/openjdk-21.0.1/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/olfabre/Desktop/UNIVERSITE/MASTER1/ue tests/ceri-m1-techniques-de-test/target/surefire/surefirebooter10048217590895705005.jar /Users/olfabre/Desktop/UNIVERSITE/MASTER1/ue tests/ceri-m1-techniques-de-test/target/surefire 2024-12-19T08-04-35_323-jvmRun1 surefire13995898518922871371tmp surefire_03929639636584009858tmp"/>
+    <property name="sun.java.command" value="/Users/olfabre/Desktop/UNIVERSITE/MASTER1/ue tests/ceri-m1-techniques-de-test/target/surefire/surefirebooter14660864060273506433.jar /Users/olfabre/Desktop/UNIVERSITE/MASTER1/ue tests/ceri-m1-techniques-de-test/target/surefire 2024-12-19T08-14-22_263-jvmRun1 surefire15281167452067164816tmp surefire_017062701420965750703tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/olfabre/Desktop/UNIVERSITE/MASTER1/ue tests/ceri-m1-techniques-de-test/target/test-classes:/Users/olfabre/Desktop/UNIVERSITE/MASTER1/ue tests/ceri-m1-techniques-de-test/target/classes:/Users/olfabre/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/olfabre/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/olfabre/.m2/repository/org/mockito/mockito-core/3.12.4/mockito-core-3.12.4.jar:/Users/olfabre/.m2/repository/net/bytebuddy/byte-buddy/1.11.13/byte-buddy-1.11.13.jar:/Users/olfabre/.m2/repository/net/bytebuddy/byte-buddy-agent/1.11.13/byte-buddy-agent-1.11.13.jar:/Users/olfabre/.m2/repository/org/objenesis/objenesis/3.2/objenesis-3.2.jar:/Users/olfabre/.m2/repository/org/apache/commons/commons-collections4/4.0/commons-collections4-4.0.jar:"/>
@@ -29,7 +29,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/olfabre/Desktop/UNIVERSITE/MASTER1/ue tests/ceri-m1-techniques-de-test/target/surefire/surefirebooter10048217590895705005.jar"/>
+    <property name="surefire.real.class.path" value="/Users/olfabre/Desktop/UNIVERSITE/MASTER1/ue tests/ceri-m1-techniques-de-test/target/surefire/surefirebooter14660864060273506433.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="21.0.1+12-29"/>
@@ -58,9 +58,9 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testSize" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.002"/>
-  <testcase name="testGetPokemonsSorted" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.006"/>
+  <testcase name="testSize" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.003"/>
+  <testcase name="testGetPokemonsSorted" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.005"/>
   <testcase name="testGetPokemon" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.003"/>
-  <testcase name="testAddPokemon" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.004"/>
+  <testcase name="testAddPokemon" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.005"/>
   <testcase name="testGetPokemons" classname="fr.univavignon.pokedex.api.IPokedexTest" time="0.005"/>
 </testsuite>
