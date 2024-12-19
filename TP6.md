@@ -553,5 +553,22 @@ On va donc intégrer ce cas dans mes tests
 
 
 ```java
+@Test
+    public void testRocketFactoryAvecIndexNegatif() {
+        Pokemon pokemon = rocketFactory.createPokemon(-1, 100, 100, 100, 100);
+
+        assertEquals(-1, pokemon.getIndex());
+        assertEquals("Ash's Pikachu", pokemon.getName());
+        assertEquals(1000, pokemon.getAttack());
+        assertEquals(1000, pokemon.getDefense());
+        assertEquals(1000, pokemon.getStamina());
+        assertEquals(0.0, pokemon.getIv(), 0.01);
+    }
 ```
+
+
+
+![30](explications_images/30.jpg)
+
+Nous voyons que nous avons couvert la totalité de l'implémentation.
 
