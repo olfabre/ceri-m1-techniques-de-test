@@ -19,8 +19,8 @@ Master 1 ILSEN Classic 1 Group 1
 **Check style - **   
 <img src="https://github.com/olfabre/ceri-m1-techniques-de-test/raw/gh-pages/target/badges/checkstyle-result.svg"/>   
 
+[![Checkstyle Badge](https://github.com/olfabre/ceri-m1-techniques-de-test/raw/gh-pages/target/badges/checkstyle-result.svg)](https://olfabre.github.io/ceri-m1-techniques-de-test/fr/univavignon/pokedex/api/package-summary.html)
 
-[![verifstyle]([https://olfabre.github.io/ceri-m1-techniques-de-test/fr/univavignon/pokedex/api/package-summary.html][https://olfabre.github.io/ceri-m1-techniques-de-test/fr/univavignon/pokedex/api/package-summary.html](https://github.com/olfabre/ceri-m1-techniques-de-test/raw/gh-pages/target/badges/checkstyle-result.svg)
 
 ---
 
