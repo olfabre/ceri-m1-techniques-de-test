@@ -16,9 +16,9 @@ Master 1 ILSEN Classic 1 Group 1
 
 [![codecov](https://codecov.io/github/olfabre/ceri-m1-techniques-de-test/branch/master/graph/badge.svg?token=4LFWQGVEUR)](https://codecov.io/github/olfabre/ceri-m1-techniques-de-test)
 
-**Check style - Verif Style**   
+**Check style - **   
 <img src="https://github.com/olfabre/ceri-m1-techniques-de-test/raw/gh-pages/target/badges/checkstyle-result.svg"/>   
-
+[![verifstyle]([https://codecov.io/github/olfabre/ceri-m1-techniques-de-test/branch/master/graph/badge.svg?token=4LFWQGVEUR](https://github.com/olfabre/ceri-m1-techniques-de-test/raw/gh-pages/target/badges/checkstyle-result.svg))](https://olfabre.github.io/ceri-m1-techniques-de-test/fr/univavignon/pokedex/api/package-summary.html)
 
 ---
 
