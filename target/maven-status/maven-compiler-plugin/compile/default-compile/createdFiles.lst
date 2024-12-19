@@ -2,6 +2,7 @@ fr/univavignon/pokedex/api/PokedexImplementation.class
 fr/univavignon/pokedex/api/PokedexException.class
 fr/univavignon/pokedex/api/PokemonComparators.class
 fr/univavignon/pokedex/api/PokedexFactoryImplementation.class
+fr/univavignon/pokedex/api/PokemonMetadataProviderImplementation.class
 fr/univavignon/pokedex/api/IPokemonTrainerFactory.class
 fr/univavignon/pokedex/api/IPokemonFactory.class
 fr/univavignon/pokedex/api/PokemonFactoryImplementation.class
